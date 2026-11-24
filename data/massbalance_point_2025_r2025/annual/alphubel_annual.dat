@@ -1,0 +1,6 @@
+# Mass Balance;  Alphubel Nord; 385; annual
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20251027 ;   reference ; http://www.glamos.ch
+ alhTK09-24   20240821 1200   20250916 1200  391.0  1   633259.0 100537.0  3789.0   2   -18   800   4   -144   1   1    43    40    17   0  jb
+ alhTK10-24   20240821 1200   20250916 1200  391.0  1   633235.0 100567.0  3802.0   2  -117   900   1  -1053   1   1    47    45    15   0  jb

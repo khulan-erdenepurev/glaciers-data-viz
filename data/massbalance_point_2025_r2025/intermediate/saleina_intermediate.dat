@@ -1,0 +1,8 @@
+# Mass Balance;  Saleina; 42; intermediate
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+         01   20020724 1200   20021014 1200   82.0  1   572090.0  92845.0  1920.0   2  -389   900   1  -3501   1   1    69    45    52   0  hm
+         02   20020723 1200   20021014 1200   83.0  1   571870.0  92626.0  2020.0   2  -322   900   1  -2898   1   1    62    45    43   0  hm
+         03   20020723 1200   20021014 1200   83.0  1   571330.0  92222.0  2200.0   2  -322   900   1  -2898   1   1    62    45    43   0  hm
+         04   20020724 1200   20021014 1200   82.0  1   570531.0  91428.0  2600.0   2  -244   900   1  -2196   1   1    55    45    32   0  hm

@@ -1,0 +1,33 @@
+# Horizontal CRS: CH1903_LV95 (EPSG:2056)
+# Vertical CRS: relative to mean sea level (geoid) - according to source data repository
+# DEM source: SwissAlti3D (Swisstopo, pr2019)
+# Surface elevation: method not documented here
+# Survey points: 13
+# Profile lengths (m): 217.9
+# Investigators: Bauder, Andreas and colleagues
+# Sponsor: ETH Zurich by various funding
+# Reference: Farinotti, D., Huss, M., Bauder, A., Funk, M., & Truffer, M. (2009). A method to estimate the ice volume and ice-thickness distribution of alpine glaciers. Journal of Glaciology, 55(191), 422-430.
+# DOI: 10.5904/wgms-glathida-2019-03 (GlaThiDa Consortium, 2019)
+# About uncertainty-type, details in Grab et al. (2021):
+#  1.1: one reflection picked with small picking error
+#  1.2: primary and secondary reflection picked with small picking error
+#  2.1: one reflection picked with large picking error
+#  2.2: primary and secondary reflection picked with large picking error
+#  2.3: two equivalent reflections (min/max depth) picked with large picking error
+#  3.1: one reflection picked without picking error estimate (average error assumed)
+#  3.2: two reflections picked without picking error estimate (average error assumed)
+#
+# DateGPR_ModeYearDEM_DateSURF_profNo	point_id	sgi_id	x	y	z_dem(m)	z_surface(m)	bedrock(m)	thickness(m)	min-thickness(m)	max-thickness(m)	Uncertainty-type
+20079999_2014_00000000_xxx	0	E50/07	2802161.85	1191721.00	2986.22	2991.00	2922.00	69.00	62.78	75.22	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802181.50	1191749.47	2986.84	2992.00	2922.00	70.00	63.76	76.24	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802190.96	1191763.14	2987.62	2993.00	2922.00	71.00	64.74	77.26	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802200.41	1191776.80	2988.74	2993.00	2917.00	76.00	69.65	82.35	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802209.84	1191791.58	2989.90	2994.00	2912.00	82.00	75.54	88.46	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802219.30	1191805.25	2991.14	2995.00	2907.00	88.00	81.44	94.56	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802229.48	1191820.05	2992.44	2997.00	2906.00	91.00	84.38	97.62	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802238.21	1191832.59	2993.93	2998.00	2907.00	91.00	84.38	97.62	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802248.40	1191847.39	2995.48	3000.00	2912.00	88.00	81.44	94.56	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802257.86	1191861.06	2996.92	3000.00	2917.00	83.00	76.53	89.47	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802266.59	1191873.59	2998.42	3003.00	2926.00	77.00	70.63	83.37	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802276.77	1191888.39	3000.29	3004.00	2932.00	72.00	65.72	78.28	3.1
+20079999_2014_00000000_xxx	0	E50/07	2802284.75	1191900.90	3001.82	3004.00	2942.00	62.00	55.90	68.10	3.1

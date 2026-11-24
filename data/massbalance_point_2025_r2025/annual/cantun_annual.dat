@@ -1,0 +1,7 @@
+# Mass Balance;  Cantun; 152; annual
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+          U   19551016 1200   19560919 1200  339.0  1   772600.0 132000.0  2840.0   3   256   539   6   1379   1   1   167    26   165   0  vaw
+          U   19561017 1200   19570904 1200  322.0  1   772600.0 132000.0  2840.0   4   211   539   6   1137   1   1   139    26   136   0  vaw
+          U   19571016 1200   19581008 1200  357.0  1   772600.0 132000.0  2840.0   4    31   539   6    167   1   1    33    26    20   0  vaw

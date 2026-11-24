@@ -1,0 +1,7 @@
+# Mass Balance; Blauschnee; 380; winter
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+        111   20120430 1200   20120430 1200    0.0  3   744135.0 235010.0  2375.0   2   750   487   6   3659   1   2   506   251   439   0  mh,mf
+        211   20120430 1200   20120430 1200    0.0  3   744179.0 235033.0  2355.0   2   650   474   6   3082   1   2   447   251   369   0  mh,mf
+        311   20120430 1200   20120430 1200    0.0  3   744262.0 235051.0  2254.0   2   500   454   6   2270   1   2   370   251   272   0  mh,mf

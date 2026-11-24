@@ -1,0 +1,7 @@
+# Mass Balance;  Moiry; 24; intermediate
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+         01   20020726 1200   20021015 1200   81.0  1   611464.0 105238.0  2389.0   2  -222   900   1  -1998   1   1    54    45    29   0  hm
+         02   20020726 1200   20021015 1200   81.0  1   611488.0 105076.0  2400.0   2  -200   900   1  -1800   1   1    52    45    26   0  hm
+         03   20020726 1200   20021015 1200   81.0  1   611803.0 103926.0  2656.0   2  -189   900   1  -1701   1   1    51    45    25   0  hm

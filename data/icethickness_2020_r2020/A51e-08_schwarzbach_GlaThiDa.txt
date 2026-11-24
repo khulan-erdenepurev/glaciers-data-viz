@@ -1,0 +1,23 @@
+# Horizontal CRS: CH1903_LV95 (EPSG:2056)
+# Vertical CRS: LN02 (EPSG:5728) - 3/3 pts from SwissALTI3D r2019
+# DEM source: SwissAlti3D (Swisstopo, pr2019)
+# Surface elevation: method not documented here
+# Survey points: 3
+# Profile lengths (m): 56.1
+# Investigators: M. Fischer and colleagues
+# Sponsor: University of Fribourg
+# Reference: Fischer, M., Huss, M., and Hoelzle, M. (2013). Recent changes of very small glaciers in the Swiss Alps. EGU General Assembly, Vienna 2013. Geophysical Research Abstracts, 15, EGU2013-149. ; Huss, M., and Fischer, M. (2016). Sensitivity of very small glaciers in the Swiss Alps to future climate change. Frontiers in Earth Science, 4:34.
+# DOI: 10.5904/wgms-glathida-2019-03 (GlaThiDa Consortium, 2019)
+# About uncertainty-type, details in Grab et al. (2021):
+#  1.1: one reflection picked with small picking error
+#  1.2: primary and secondary reflection picked with small picking error
+#  2.1: one reflection picked with large picking error
+#  2.2: primary and secondary reflection picked with large picking error
+#  2.3: two equivalent reflections (min/max depth) picked with large picking error
+#  3.1: one reflection picked without picking error estimate (average error assumed)
+#  3.2: two reflections picked without picking error estimate (average error assumed)
+#
+# DateGPR_ModeYearDEM_DateSURF_profNo	point_id	sgi_id	x	y	z_dem(m)	z_surface(m)	bedrock(m)	thickness(m)	min-thickness(m)	max-thickness(m)	Uncertainty-type
+20130399_2016_2016xxxx_xxx	0	A51e/08	2689760.19	1161213.37	2785.14	2785.14	2766.14	19.00	14.86	24.34	3.1
+20130399_2016_2016xxxx_xxx	0	A51e/08	2689752.38	1161223.25	2783.40	2783.40	2767.40	16.00	14.60	21.28	3.1
+20130399_2016_2016xxxx_xxx	0	A51e/08	2689749.19	1161179.85	2802.79	2802.79	2791.79	11.00	10.21	16.20	3.1

@@ -1,0 +1,7 @@
+# Mass Balance;  Diavolezza; 316; annual
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+          1   19590904 1200   19600903 1200  365.0  3   794600.0 143100.0  2965.0   5   185   539   6    997   1   1   208   171   119   0  glrep
+          1   19600904 1200   19610904 1200  365.0  0   794600.0 143100.0  2965.0   4   170   539   6    916   1   1   264   240   109   0  glrep
+          1   19610904 1200   19620904 1200  365.0  0   794600.0 143100.0  2965.0   4  -240   800   4  -1920   1   1   334   242   230   0  glrep

@@ -1,0 +1,6 @@
+# Mass Balance;  Err (Nord); 146; winter
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+        sup   19230827 1200   19240607 1200  285.0  1   773200.0 157000.0  3200.0   5   315   466   6   1469   2   1   200    96   176   0  glrep
+        sup   19240827 1200   19250322 1200  207.0  1   773200.0 157000.0  3200.0   5   115   343   6    395   2   1    85    70    47   0  glrep

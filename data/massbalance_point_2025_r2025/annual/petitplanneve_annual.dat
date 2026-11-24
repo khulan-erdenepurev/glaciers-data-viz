@@ -1,0 +1,6 @@
+# Mass Balance;  Petit Plan Névé; 131; annual
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+          1   19611005 1200   19621006 1200  366.0  3   577300.0 121500.0  2426.0   5   110   539   6    592   2   1   280   270    71   0  glrep
+          1   19621006 1200   19631005 1200  364.0  1   577300.0 121500.0  2426.0   5    38   539   6    204   2   1   113   111    24   0  glrep

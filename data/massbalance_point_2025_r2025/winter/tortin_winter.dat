@@ -1,0 +1,7 @@
+# Mass Balance; tortin; 32; winter
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20251027 ;   reference ; http://www.glamos.ch
+         s1   20250409 1200   20250409 1200    0.0  3   590226.0 103116.0  3087.0   2   365   434   4   1584   1   2   223   117   190   0  cl
+         s2   20250409 1200   20250409 1200    0.0  3   589838.0 103351.0  2921.0   2   225   407   4    915   1   2   205   173   109   0  cl
+         s3   20250409 1200   20250409 1200    0.0  3   589892.0 103801.0  2855.0   2   185   407   4    752   1   2   195   173    90   0  cl

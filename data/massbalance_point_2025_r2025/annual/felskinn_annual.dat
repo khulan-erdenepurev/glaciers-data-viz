@@ -1,0 +1,8 @@
+# Mass Balance; Chessjen NW; 175; annual
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20251027 ;   reference ; http://www.glamos.ch
+ fsk-TK7-24   20231015 1200   20240929 1200  350.0  3   636957.0 101858.0  2984.0   2  -165   900   1  -1485   2   1   251   250    22   0  jb
+ fsk-TK8-24   20231015 1200   20240929 1200  350.0  3   636977.0 101744.0  3028.0   2  -150   900   1  -1350   2   1   216   215    20   0  jb
+ fsk-TK7-24   20240929 1200   20250903 1200  339.0  1   636957.0 101858.0  2984.0   2  -134   900   1  -1206   1   1    48    45    18   0  jb
+ fsk-TK8-24   20240929 1200   20250903 1200  339.0  1   636977.0 101744.0  3028.0   2  -131   900   1  -1179   1   1    48    45    17   0  jb

@@ -1,0 +1,21 @@
+# Horizontal CRS: CH1903_LV95 (EPSG:2056)
+# Vertical CRS: relative to mean sea level (geoid) - according to source data repository
+# DEM source: SwissAlti3D (Swisstopo, pr2019)
+# Surface elevation: method not documented here
+# Survey points: 1
+# Profile lengths (m): 0.0
+# Investigators: Bauder, Andreas and colleagues
+# Sponsor: ETH Zurich by various funding
+# Reference: Feiger, N., Huss, M., Leinss, S., Sold, L., & Farinotti, D. (2018). The bedrock topography of Gries-and Findelengletscher. Geographica Helvetica, 73(1), 1.
+# DOI: 10.5904/wgms-glathida-2019-03 (GlaThiDa Consortium, 2019)
+# About uncertainty-type, details in Grab et al. (2021):
+#  1.1: one reflection picked with small picking error
+#  1.2: primary and secondary reflection picked with small picking error
+#  2.1: one reflection picked with large picking error
+#  2.2: primary and secondary reflection picked with large picking error
+#  2.3: two equivalent reflections (min/max depth) picked with large picking error
+#  3.1: one reflection picked without picking error estimate (average error assumed)
+#  3.2: two reflections picked without picking error estimate (average error assumed)
+#
+# DateGPR_ModeYearDEM_DateSURF_profNo	point_id	sgi_id	x	y	z_dem(m)	z_surface(m)	bedrock(m)	thickness(m)	min-thickness(m)	max-thickness(m)	Uncertainty-type
+19990423_2017_00000000_xxx	0	B45/35	2667137.56	1142791.56	3061.50	3101.00	3044.00	57.00	50.99	63.01	3.1

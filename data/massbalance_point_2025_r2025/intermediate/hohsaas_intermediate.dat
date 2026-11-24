@@ -1,0 +1,6 @@
+# Mass Balance; Hohsaas; 38; intermediate
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20251027 ;   reference ; http://www.glamos.ch
+ hsa-TK5-24   20240929 1200   20250813 1200  318.0  1   643397.0 109786.0  3284.0   2   -61   900   1   -549   1   1    45    45     8   0  jb
+ hsa-TK6-24   20240929 1200   20250813 1200  318.0  1   643520.0 109840.0  3338.0   2   -91   900   1   -819   1   1    46    45    12   0  jb

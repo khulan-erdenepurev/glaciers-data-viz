@@ -1,0 +1,11 @@
+# Mass Balance;  Witenwasseren; 135; intermediate
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+         04   20011001 1200   20020814 1200  317.0  3   679628.0 154057.0  2700.0   5   150   550   1    825   2   2   209   209    12   0  hm
+         01   20020814 1200   20021004 1200   51.0  1   679773.0 154889.0  2547.0   2  -144   900   1  -1296   1   1    49    45    19   0  hm
+         02   20020814 1200   20021004 1200   51.0  1   679618.0 154462.0  2622.0   2  -122   900   1  -1098   1   1    47    45    16   0  hm
+         03   20020814 1200   20021004 1200   51.0  1   679521.0 154302.0  2651.0   2  -111   900   1   -999   1   1    47    45    14   0  hm
+         01   20030816 1200   20031019 1200   64.0  1   679773.0 154889.0  2547.0   2  -117   900   1  -1053   1   1    47    45    15   0  hm
+         02   20030816 1200   20031019 1200   64.0  1   679618.0 154462.0  2622.0   2  -100   900   1   -900   1   1    46    45    13   0  hm
+         03   20030816 1200   20031019 1200   64.0  1   679644.0 154111.0  2683.0   2  -111   900   1   -999   1   1    47    45    14   0  hm

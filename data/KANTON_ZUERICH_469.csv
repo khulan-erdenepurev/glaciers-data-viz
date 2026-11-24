@@ -1,0 +1,180 @@
+﻿BFS_NR,GEBIET_NAME,THEMA_NAME,SET_NAME,SUBSET_NAME,INDIKATOR_ID,INDIKATOR_NAME,INDIKATOR_JAHR,INDIKATOR_VALUE,EINHEIT_KURZ,EINHEIT_LANG
+1,Aeugst a.A.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,283,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+2,Affoltern a.A.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,217,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+3,Bonstetten,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,166,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+4,Hausen a.A.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,206,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+5,Hedingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,202,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+6,Kappel a.A.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,236,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+7,Knonau,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,310,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+8,Maschwanden,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,260,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+9,Mettmenstetten,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,202,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+10,Obfelden,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,204,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+11,Ottenbach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,206,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+12,Rifferswil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,230,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+13,Stallikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,180,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+14,Wettswil a.A.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,190,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+22,Benken,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,261,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+23,Berg a.I.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,237,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+24,Buch a.I.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,196,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+25,Dachsen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,165,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+26,Dorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,275,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+27,Feuerthalen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,null,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+28,Flaach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,348,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+29,Flurlingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,229,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+31,Henggart,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,172,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+33,Kleinandelfingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,289,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+34,Laufen-Uhwiesen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,303,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+35,Marthalen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,320,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+37,Ossingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,244,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+38,Rheinau,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,378,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+39,Thalheim a.d.Th.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,269,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+40,Trüllikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,230,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+41,Truttikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,193,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+43,Volken,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,267,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+51,Bachenbülach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,205,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+52,Bassersdorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,207,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+53,Bülach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,186,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+54,Dietlikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,332,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+55,Eglisau,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,207,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+56,Embrach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,217,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+58,Glattfelden,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,233,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+59,Hochfelden,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,215,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+60,Höri,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,208,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+61,Hüntwangen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,188,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+62,Kloten,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,310,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+63,Lufingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,159,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+64,Nürensdorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,226,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+65,Oberembrach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,259,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+66,Opfikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,249,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+67,Rafz,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,245,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+68,Rorbas,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,174,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+69,Wallisellen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,219,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+70,Wasterkingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,232,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+71,Wil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,203,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+72,Winkel,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,247,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+81,Bachs,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,406,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+82,Boppelsen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,249,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+83,Buchs,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,280,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+84,Dällikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,351,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+85,Dänikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,319,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+86,Dielsdorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,306,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+87,Hüttikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,220,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+88,Neerach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,222,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+89,Niederglatt,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,235,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+90,Niederhasli,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,184,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+91,Niederweningen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,158,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+92,Oberglatt,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,210,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+94,Otelfingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,248,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+95,Regensberg,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,314,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+96,Regensdorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,247,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+97,Rümlang,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,270,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+98,Schleinikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,265,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+99,Schöfflisdorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,179,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+100,Stadel,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,233,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+101,Steinmaur,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,305,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+102,Weiach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,266,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+111,Bäretswil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,206,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+112,Bubikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,227,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+113,Dürnten,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,208,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+114,Fischenthal,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,175,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+115,Gossau,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,186,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+116,Grüningen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,231,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+117,Hinwil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,261,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+118,Rüti,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,197,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+119,Seegräben,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,214,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+120,Wald,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,285,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+121,Wetzikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,214,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+131,Adliswil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,190,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+135,Kilchberg,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,224,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+136,Langnau a.A.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,203,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+137,Oberrieden,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,205,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+138,Richterswil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,184,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+139,Rüschlikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,284,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+141,Thalwil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,198,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+151,Erlenbach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,318,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+152,Herrliberg,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,276,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+153,Hombrechtikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,195,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+154,Küsnacht,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,260,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+155,Männedorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,211,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+156,Meilen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,224,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+157,Oetwil a.S.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,219,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+158,Stäfa,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,215,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+159,Uetikon a.S.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,null,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+160,Zumikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,252,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+161,Zollikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,260,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+172,Fehraltorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,274,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+173,Hittnau,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,197,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+176,Lindau,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,203,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+177,Pfäffikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,215,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+178,Russikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,184,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+180,Weisslingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,219,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+181,Wila,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,202,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+182,Wildberg,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,425,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+191,Dübendorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,243,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+192,Egg,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,243,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+193,Fällanden,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,208,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+194,Greifensee,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,198,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+196,Mönchaltorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,228,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+197,Schwerzenbach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,236,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+198,Uster,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,250,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+199,Volketswil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,214,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+211,Altikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,300,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+213,Brütten,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,229,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+214,Dägerlen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,227,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+215,Dättlikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,172,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+216,Dinhard,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,263,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+218,Ellikon a.d.Th.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,306,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+219,Elsau,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,215,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+220,Hagenbuch,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,337,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+221,Hettlingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,223,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+223,Neftenbach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,181,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+224,Pfungen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,174,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+225,Rickenbach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,null,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+226,Schlatt,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,222,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+227,Seuzach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,205,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+228,Turbenthal,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,209,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+230,Winterthur,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,221,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+231,Zell,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,206,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+241,Aesch ZH,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,205,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+242,Birmensdorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,213,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+243,Dietikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,265,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+244,Geroldswil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,234,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+245,Oberengstringen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,217,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+246,Oetwil a.d.L.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,263,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+247,Schlieren,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,263,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+248,Uitikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,229,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+249,Unterengstringen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,216,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+250,Urdorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,246,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+251,Weiningen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,282,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+261,Zürich,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,262,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+291,Andelfingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,253,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+292,Stammheim,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,329,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+293,Wädenswil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,204,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+294,Elgg,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,186,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+296,Illnau-Effretikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,225,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+297,Bauma,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,244,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+298,Wiesendangen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,216,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Affoltern,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,209,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Andelfingen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,264,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Bülach,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,234,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Dielsdorf,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,249,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Dietikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,249,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Hinwil,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,222,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Horgen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,204,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Meilen,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,238,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Pfäffikon,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,225,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Uster,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,230,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Winterthur,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,217,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Bezirk Zürich,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,262,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Furttal,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,268,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Glattal,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,240,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Knonaueramt,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,209,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Limmattal,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,249,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Oberland,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,229,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Pfannenstiel,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,238,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Unterland,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,216,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Weinland,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,264,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Winterthur u. Umg.,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,218,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Zimmerberg,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,204,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Region Zürich,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,262,Liter pro Tag und Einw.,Liter pro Tag und Einwohner
+0,Zürich - ganzer Kanton,Raum und Umwelt,Umwelt,Verbrauch,469,Wasserverbrauch pro Tag und Kopf [Liter],2023,237,Liter pro Tag und Einw.,Liter pro Tag und Einwohner

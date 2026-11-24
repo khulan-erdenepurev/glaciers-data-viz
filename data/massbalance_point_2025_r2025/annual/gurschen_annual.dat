@@ -1,0 +1,9 @@
+# Mass Balance;  Gurschen; 256; annual
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+       0503   20040920 1200   20050915 1200  360.0  3   689816.0 161932.0  2907.0   2   -50  1000   5   -500   3   1   439   437    50   0  ab
+       0603   20050920 1200   20060919 1200  364.0  3   689840.0 162986.0  2892.0   2  -189  1000   5  -1890   3   1   476   437   189   0  ab
+       0605   20050920 1200   20060919 1200  364.0  3   689826.0 162042.0  2873.0   2  -215  1000   5  -2150   2   1   342   266   215   0  ab
+       0703   20060920 1200   20070924 1200  369.0  3   689808.0 161947.0  2898.0   2   -45  1000   5   -450   2   1   270   266    45   0  ab
+       0705   20060920 1200   20070924 1200  369.0  3   689789.0 161997.0  2884.0   2  -143  1000   5  -1430   2   1   302   266   143   0  ab

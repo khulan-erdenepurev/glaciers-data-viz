@@ -1,0 +1,7 @@
+# Mass Balance;  Damma; 70; annual
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+       1200   20080911 1200   20091002 1200  386.0  1   677960.3 165170.3  2133.0   2  -183   900   1  -1647   1   2    93    90    24   0  df
+       1200   20080910 1200   20091002 1200  387.0  2   676493.0 166184.4  2766.0   2  -215   900   1  -1935   1   2   193   191    29   0  df
+       1200   20080911 1200   20091002 1200  386.0  2   676234.5 165354.8  2897.0   2   -61   900   1   -549   1   2   191   191     8   0  df

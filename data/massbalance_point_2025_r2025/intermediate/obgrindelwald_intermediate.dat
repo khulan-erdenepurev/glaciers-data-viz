@@ -1,0 +1,11 @@
+# Mass Balance;  Oberer Grindelwald; 57; intermediate
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+         01   20020622 1200   20021031 1200  131.0  1   649400.0 164078.0  1534.5   2  -700   900   1  -6300   1   1   104    45    94   0  hm
+         02   20020622 1200   20021031 1200  131.0  1   649485.0 163987.0  1556.4   2  -789   900   1  -7101   1   1   115    45   106   0  hm
+         03   20020622 1200   20021031 1200  131.0  1   649714.0 163678.0  1670.8   2  -711   900   1  -6399   1   1   106    45    95   0  hm
+         04   20020622 1200   20021031 1200  131.0  1   649797.0 163522.0  1576.0   2  -700   900   1  -6300   1   1   104    45    94   0  hm
+         02   20030621 1200   20031010 1200  111.0  1   649485.0 163987.0  1556.4   2  -967   900   1  -8703   3   1   385   362   130   0  hm
+         03   20030621 1200   20031010 1200  111.0  1   649714.0 163678.0  1670.8   2  -978   900   1  -8802   3   1   386   362   132   0  hm
+         04   20030621 1200   20031010 1200  111.0  1   649797.0 163522.0  1576.0   2  -867   900   1  -7803   3   1   381   362   117   0  hm

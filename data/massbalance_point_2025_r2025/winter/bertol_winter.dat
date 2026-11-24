@@ -1,0 +1,7 @@
+# Mass Balance;  Bertol; 381; winter
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+        ori   19260824 1200   19270323 1200  211.0  1   607000.0  95000.0  3250.0   5   500   398   6   1991   4   6   662   618   238   0  glrep
+        occ   19261014 1200   19270630 1200  259.0  1   606800.0  95000.0  3250.0   5  1000   588   6   5883   2   6  1136   890   705   0  glrep
+        occ   19270923 1200   19280530 1200  250.0  1   606800.0  95000.0  3250.0   5   550   489   6   2690   2   6   807   740   322   0  glrep

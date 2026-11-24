@@ -1,0 +1,7 @@
+# Mass Balance;  Geren; 162; intermediate
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+        735   20020814 1200   20021004 1200   51.0  1   677999.0 153146.0  2445.0   2  -178   900   1  -1602   1   1    51    45    24   0  hm
+        736   20020814 1200   20021004 1200   51.0  1   678476.0 153217.0  2548.0   2  -144   900   1  -1296   1   1    49    45    19   0  hm
+        737   20020814 1200   20021004 1200   51.0  1   678693.0 153258.0  2597.0   2  -144   900   1  -1296   1   1    49    45    19   0  hm

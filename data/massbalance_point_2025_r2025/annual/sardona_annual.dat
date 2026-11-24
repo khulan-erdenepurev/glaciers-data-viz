@@ -1,0 +1,6 @@
+# Mass Balance;  Sardona; 91; annual
+# name; date0; time0; date1; time1; period; date_quality; x_pos ; y_pos ; z_pos ; position_quality; mb_raw ; density ;  density_quality ; mb_we ; measurement_quality ; measurement_type ; mb_error ; reading_error ; density_error ; error_evaluation_method; source
+# (-);  (yyyymmdd); (hhmm) ; (yyyymmdd); (hhmm) ; (d) ; (#) ; (m) ; (m) ; (m a.s.l.) ; (#) ; (cm) ; (kg m-3) ; (#) ; (mm w.e.) ; (#) ; (#) ; (mm w.e.) ; (mm w.e.) ; (mm w.e.) ; (#) ; (-) 
+#  GLAMOS / VAW-ETHZ    ; production-date 20241029 ;   reference ; http://www.glamos.ch
+      SA1.1   20130925 1200   20141018 1200  388.0  1   738321.0 197458.0  2784.0   2    -8  1000   5    -80   1   1    50    50     8   0  ol
+      SA1.1   20141018 1200   20151009 1200  356.0  1   738321.0 197459.0  2784.0   2  -184   850   4  -1564   1   1   192    42   187   0  ol

@@ -1,0 +1,29 @@
+# Horizontal CRS: CH1903_LV95 (EPSG:2056)
+# Vertical CRS: LN02 (EPSG:5728) - according to source data repository
+# DEM source: SwissAlti3D (Swisstopo, pr2019)
+# Surface elevation: by GNSS and laser altimeter from GPR platform
+# Survey points: 9
+# Profile lengths (m): 16.0
+# Investigators: Rabenstein, Lasse; Schmid, Lino; Grab, Melchior; Langhammer, Lisebth; Bauder, Andreas; Maurer Hansruedi
+# Sponsor: ETH Zurich and Swiss Geophysical Commission (SGPK)
+# Reference: Grab et al. (2021)
+# DOI: 10.18750/icethickness.2020.r2020 (Grab et al., in prep.)
+# About uncertainty-type, details in Grab et al. (2021):
+#  1.1: one reflection picked with small picking error
+#  1.2: primary and secondary reflection picked with small picking error
+#  2.1: one reflection picked with large picking error
+#  2.2: primary and secondary reflection picked with large picking error
+#  2.3: two equivalent reflections (min/max depth) picked with large picking error
+#  3.1: one reflection picked without picking error estimate (average error assumed)
+#  3.2: two reflections picked without picking error estimate (average error assumed)
+#
+# DateGPR_ModeYearDEM_DateSURF_profNo	point_id	sgi_id	x	y	z_dem(m)	z_surface(m)	bedrock(m)	thickness(m)	min-thickness(m)	max-thickness(m)	Uncertainty-type
+20160506_2016_20160506_001	2	B82/19	2599464.15	1093094.75	3568.39	3568.19	3472.84	95.35	86.66	104.04	2.1
+20160506_2016_20160506_001	3	B82/19	2599465.94	1093093.92	3568.71	3568.32	3472.14	96.18	87.48	104.89	2.1
+20160506_2016_20160506_001	4	B82/19	2599467.84	1093093.28	3568.94	3568.32	3471.43	96.89	88.17	105.61	2.1
+20160506_2016_20160506_001	5	B82/19	2599469.74	1093092.65	3569.18	3568.46	3470.72	97.74	89.01	106.48	2.1
+20160506_2016_20160506_001	6	B82/19	2599471.63	1093092.02	3569.41	3568.59	3470.01	98.58	89.83	107.33	2.1
+20160506_2016_20160506_001	7	B82/19	2599473.53	1093091.38	3569.65	3568.74	3469.30	99.44	90.67	108.21	2.1
+20160506_2016_20160506_001	8	B82/19	2599475.43	1093090.75	3569.84	3568.74	3468.59	100.15	91.37	108.93	2.1
+20160506_2016_20160506_001	9	B82/19	2599477.36	1093090.31	3569.84	3568.87	3467.88	100.99	92.20	109.78	2.1
+20160506_2016_20160506_001	10	B82/19	2599479.36	1093090.28	3569.77	3568.78	3467.18	101.60	92.80	110.41	2.1
