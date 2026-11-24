@@ -1,0 +1,12 @@
+# Five-screen interactive glacier prototype
+
+Build a local experimental prototype with Vite, vanilla JavaScript, D3 and Three.js. Keep the main scrollytelling route and supplementary Task 06 overview separate. Task 05 is developed in Figma using findings from the prototype. Treat the screen references as provisional.
+
+1. **Setup, data and Task 06 overview.** Serve a main route with data status and an overview at `/overview.html`. Show five panels with shared axes and an exact numeric table. Verify 211 glacier-years, 633 balance values, Rhône's 1909–2007 gap, Otemma on the common time axis, positive annual balances, and missing values distinct from zero. Preserve the source CSVs.
+2. **Reusable cube system.** Render a cube, irregular stack and paired volumes in one orthographic Three.js canvas. Verify proportional volume, shared comparison scales and interruption of animations. Use instanced geometry and exact labels.
+3. **Individual, apartment and city.** Connect the first three chapters with native vertical scroll. Support daily/monthly/yearly individual use, 40–80 building occupants in steps of 10, and five cities with monthly/yearly controls. Provide a labelled city panel where map geometry is unavailable. Verify 314.4 m³/month for 40 people and 3,556,029.06 m³/month for Zürich.
+4. **Glacier comparison.** Animate the city pile across the stage as the glacier pile enters. Carry city and period forward. Support 50 city × period × glacier combinations for 2024/25, with exact volumes, a ratio, shared scaling, and a fit view if needed. Check both size orderings.
+5. **Seasonal explorer.** Add winter and summer forms around a zero axis, signed annual balance, glacier selection and an observed-year timeline. Preserve the selected year when available and otherwise select the nearest observation. Keep city estimates fixed during timeline changes. Verify Aletsch 2025 volumes of +82.10 million m³ winter, −204.47 million m³ summer and −122.36 million m³ annual. Suppress the loss ratio in net-gain years.
+6. **Integration and submission preparation.** Verify dev and production builds, navigation in both directions, rapid state changes, keyboard controls, reduced motion, and readable values when WebGL is unavailable. Check Safari, Chromium and a narrow viewport. Document setup, attribution and limitations.
+
+Milestone 1 is the approved implementation checkpoint. Three.js rendering and the scroll sequence begin in subsequent milestones.

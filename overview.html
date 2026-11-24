@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Historical glacier mass balance</title>
+    <script type="module" src="./src/overview.js"></script>
+  </head>
+  <body>
+    <main>
+      <nav><a href="./index.html">Prototype home</a></nav>
+      <h1>Historical glacier mass balance</h1>
+      <p>Fixed-date observations in millimetres of water equivalent (mm w.e.). All panels use the same scales. Breaks in lines indicate missing observations.</p>
+      <p id="status" role="status">Loading glacier observations…</p>
+      <ul class="legend" aria-label="Chart legend">
+        <li><span class="winter">●</span> Winter</li>
+        <li><span class="summer">■</span> Summer</li>
+        <li><span class="annual">◆</span> Annual</li>
+      </ul>
+      <div id="charts"></div>
+      <section aria-labelledby="observations-title">
+        <h2 id="observations-title">Exact observations</h2>
+        <label for="glacier">Glacier</label>
+        <select id="glacier" disabled></select>
+        <div class="table-scroll" tabindex="0" role="region" aria-labelledby="table-caption">
+          <table>
+            <caption id="table-caption">Glacier observations</caption>
+            <thead>
+              <tr>
+                <th scope="col">End year</th>
+                <th scope="col">Winter (mm w.e.)</th>
+                <th scope="col">Summer (mm w.e.)</th>
+                <th scope="col">Annual (mm w.e.)</th>
+                <th scope="col">Area (km²)</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      <p>Source: <a href="https://doi.org/10.18750/massbalance.2025.r2025">Glacier Monitoring Switzerland (GLAMOS), glacier mass balance 2025 release</a>.</p>
+    </main>
+  </body>
+</html>

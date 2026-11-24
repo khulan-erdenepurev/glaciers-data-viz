@@ -2,12 +2,27 @@
 
 ## General
 
-- **Project:** Interactive map showing ... [ADD DESCRIPTION]
-- **Technology:** Web prototype using **d3.js** (plain HTML, CSS and JavaScript, no build tools). [ADD DETAILS]
+- **Project:** Experimental scrollytelling about urban water consumption and Swiss glacier mass balance.
+- **Technology:** Vite, vanilla JavaScript and D3. Three.js is planned for the cube renderer.
 - **Data:** All data files are in the `data/` folder. Use only this data; do not invent values.
 
 ## How this specification is organized
 
-- Every screen of the prototype has its own folder in `screens/`, numbered in the order a user sees them (`01_overview`, `02_glacier_selected`, …).
+- The provisional screens each have a folder in `screens/`, numbered in narrative order.
 - Each screen folder contains a `README.md` with the description of that screen, plus one or more photos of the paper prototype.
 - **All images in a screen folder belong to that screen.** `screen.jpg` is the main photo; additional photos show other states of the same screen (e.g. `state_no-data.jpg`).
+
+## Local prototype
+
+Use Node.js 22.12 or newer. From the project root, run:
+
+```sh
+npm install
+npm run dev
+```
+
+Open the address printed by Vite. The main route reports the loaded datasets. Open `/overview.html` for the Task 06 plots and exact observations table.
+
+Run `npm test` for checks against the supplied CSVs and `npm run build` to build both pages. See [PLAN.md](PLAN.md) for the approved roadmap. The screen descriptions below the project root are provisional references for future milestones.
+
+The overview uses GLAMOS's fixed-date [Swiss Glacier Mass Balance, release 2025](https://doi.org/10.18750/massbalance.2025.r2025). Years are labelled by the end of the hydrological year. Balances are shown in millimetres of water equivalent. City estimates use the supplied population and daily use figures, with the Zürich rate from municipality 261 in the 2023 cantonal CSV.

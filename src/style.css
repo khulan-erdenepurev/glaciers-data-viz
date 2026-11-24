@@ -1,0 +1,33 @@
+:root {
+  font: 16px/1.5 system-ui, sans-serif;
+  color: #222;
+  background: #f8f8f8;
+  --accent: #006b76;
+}
+
+body { margin: 0; }
+main { max-width: 58rem; margin: auto; padding: 2rem 1rem; }
+h1 { line-height: 1.15; }
+h2 { font-size: 1.1rem; }
+a { color: var(--accent); }
+.legend { display: flex; flex-wrap: wrap; gap: 1.25rem; padding: 0; list-style: none; }
+.panel { margin: 0 0 1rem; padding: 0.5rem 0.75rem; background: white; border: 1px solid #ddd; }
+.panel h2 { margin: 0.25rem 0; }
+.panel svg { display: block; width: 100%; }
+.grid .tick line { stroke: #ddd; }
+.zero { stroke: #777; }
+.series-line { fill: none; stroke: currentColor; stroke-width: 1.15; }
+.point { fill: currentColor; }
+.winter { color: #767676; }
+.summer { color: #555; }
+.annual { color: #222; }
+.summer .series-line { stroke-dasharray: 5 3; }
+.annual .series-line { stroke-dasharray: 1 3; }
+.positive { fill: var(--accent); }
+.gap-note { margin: 0; font-size: 0.88rem; }
+select { max-width: 100%; font: inherit; margin-inline-start: 0.4rem; }
+.table-scroll { overflow: auto; max-height: 26rem; margin-top: 0.75rem; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+caption { text-align: left; padding: 0.35rem; }
+th, td { text-align: right; padding: 0.4rem 0.55rem; border-bottom: 1px solid #ddd; }
+th { position: sticky; top: 0; background: #eee; }
