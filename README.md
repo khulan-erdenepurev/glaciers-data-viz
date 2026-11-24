@@ -3,7 +3,7 @@
 ## General
 
 - **Project:** Experimental scrollytelling about urban water consumption and Swiss glacier mass balance.
-- **Technology:** Vite, vanilla JavaScript and D3. Three.js is planned for the cube renderer.
+- **Technology:** Vite, vanilla JavaScript and D3. Three.js powers the cube test scene.
 - **Data:** All data files are in the `data/` folder. Use only this data; do not invent values.
 
 ## How this specification is organized
@@ -21,7 +21,7 @@ npm install
 npm run dev
 ```
 
-Open the address printed by Vite. The main route reports the loaded datasets. Open `/overview.html` for the Task 06 plots and exact observations table.
+Open the address printed by Vite. The main route reports the loaded datasets and offers a cube test scene with individual, apartment building and city comparison modes. Open `/overview.html` for the Task 06 plots and exact observations table.
 
 Run `npm test` for checks against the supplied CSVs and `npm run build` to build both pages. See [PLAN.md](PLAN.md) for the approved roadmap. The screen descriptions below the project root are provisional references for future milestones.
 

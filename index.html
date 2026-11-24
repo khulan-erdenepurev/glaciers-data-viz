@@ -11,6 +11,38 @@
       <h1>Swiss glaciers and urban water use</h1>
       <p id="status" role="status">Loading source data…</p>
       <p><a href="./overview.html">Open the glacier data overview</a></p>
+      <section aria-labelledby="cube-title">
+        <h2 id="cube-title">Water volume test scene</h2>
+        <p>Water accumulates in fixed-size cubes. Each view has its own cube unit, and both cities share a unit in the comparison. Remainders are listed below the scene.</p>
+        <fieldset id="cube-controls" disabled>
+          <label>View
+            <select id="cube-mode">
+              <option value="person">One resident</option>
+              <option value="building">Apartment building</option>
+              <option value="compare">Zürich and another city</option>
+            </select>
+          </label>
+          <label id="residents-field" hidden>Residents
+            <select id="cube-residents">
+              <option>40</option><option>50</option><option>60</option><option>70</option><option>80</option>
+            </select>
+          </label>
+          <label id="city-field" hidden>Other city <select id="cube-city"></select></label>
+          <label>Period
+            <select id="cube-period">
+              <option value="1">Day</option>
+              <option value="30" selected>30-day month</option>
+              <option value="365">365-day year</option>
+            </select>
+          </label>
+        </fieldset>
+        <div id="cube-stage"></div>
+        <div role="status">
+          <p id="cube-unit"></p>
+          <ul id="cube-values"></ul>
+        </div>
+        <p id="cube-render-status" role="status"></p>
+      </section>
     </main>
   </body>
 </html>
