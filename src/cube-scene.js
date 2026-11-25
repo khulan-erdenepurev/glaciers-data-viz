@@ -2,7 +2,7 @@ import {
   BoxGeometry, Color, EdgesGeometry, InstancedMesh, LineBasicMaterial, LineSegments,
   MeshBasicMaterial, Object3D, OrthographicCamera, Scene, Vector3, WebGLRenderer,
 } from 'three';
-import { createPileSlots, maxCubesPerPile, quantifyVolume, retargetPile } from './cube-layout.js';
+import { createPileSlots, maxCubesPerPile, quantifyVolume, retargetPile, pileIsSettled } from './cube-layout.js';
 import { advanceTransitionCounts, scaleTransition } from './scale-transition.js';
 import { cityFrame, pileFrame, mixFrame, revealProgress, viewDirection, viewRight, comparisonFrame } from './camera-framing.js';
 
@@ -18,7 +18,7 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
   const geometry = new BoxGeometry();
   const materials = ['#49858b', '#49858b', '#a1c9cc', '#315c60', '#6da3a8', '#6da3a8']
     .map(color => new MeshBasicMaterial({ color }));
-  const mesh = new InstancedMesh(geometry, materials, maxCubesPerPile + comparisonLimit);
+  const mesh = new InstancedMesh(geometry, materials, 2 * comparisonLimit);
   mesh.frustumCulled = false;
   scene.add(mesh);
 
@@ -44,9 +44,9 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
   let scrubTarget;
   let animateScrubCamera = false;
   let comparisonPose;
-  let outgoing = [];
+  let animatingComparison = false;
   const separation = scale => edge * scale.edgeRatio * 17;
-  function comparisonCounts(volumes, scale) {
+  function countsFor(volumes, scale) {
     return volumes.map(volume => quantifyVolume(volume, scale.volumePerCube, scale.limit).count);
   }
 
@@ -114,28 +114,34 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
       mesh.setMatrixAt(instance++, transform.matrix);
     }
 
-    outline.visible = Boolean(scrubState?.groupingOpacity);
-    if (outgoing.length) {
-      outgoing.forEach(pile => pile.amounts.forEach((amount, index) => place(index, amount, pile.scale.edgeRatio, pile.offset)));
-    } else if (comparisonPose) {
-      const { t, counts, scale } = comparisonPose;
-      for (let i = 0; i < counts[0]; i++) place(i, 1, scale.edgeRatio, -separation(scale) * t);
-      const growing = counts[1] * t;
-      for (let i = 0; i < Math.ceil(growing); i++) place(i, Math.min(1, growing - i), scale.edgeRatio, separation(scale));
-    } else if (scrubState) {
-      const { sourceWeight, sourceCount, growth, from, to } = scrubState;
-      const remaining = sourceCount * sourceWeight;
+    function placeRegrouped(layout, sourceCount, from, to, shift = 0) {
+      const remaining = sourceCount * layout.sourceWeight;
       for (let i = 0; i < Math.ceil(remaining); i++) {
-        place(i, Math.min(1, remaining - i), from.edgeRatio);
+        place(i, Math.min(1, remaining - i), from.edgeRatio, shift);
       }
-      for (let i = remaining > 0 ? 1 : 0; i < Math.ceil(growth); i++) {
-        place(i, Math.min(1, growth - i), to.edgeRatio);
+      for (let i = remaining > 0 ? 1 : 0; i < Math.ceil(layout.growth); i++) {
+        place(i, Math.min(1, layout.growth - i), to.edgeRatio, shift);
       }
+      outline.visible = Boolean(layout.groupingOpacity);
       if (outline.visible) {
-        outline.material.opacity = scrubState.groupingOpacity;
+        outline.material.opacity = layout.groupingOpacity;
         outline.scale.setScalar(edge * to.edgeRatio);
+        outline.position.copy(viewRight).multiplyScalar(shift);
         outline.position.y = edge * to.edgeRatio / 2;
       }
+    }
+
+    outline.visible = false;
+    if (comparisonPose) {
+      const { t, from, scale, counts, regroup, glacierGrowth } = comparisonPose;
+      const offset = separation(scale);
+      placeRegrouped(regroup, from.count, from, scale, -offset * t);
+      const growing = counts[1] * glacierGrowth;
+      for (let i = 0; i < Math.ceil(growing); i++) {
+        place(i, Math.min(1, growing - i), scale.edgeRatio, offset);
+      }
+    } else if (scrubState) {
+      placeRegrouped(scrubState, scrubState.sourceCount, scrubState.from, scrubState.to);
     } else {
       progress.forEach((pile, group) => {
         const offset = progress.length === 2 ? (group === 0 ? -1 : 1) * separation(activeScale) : 0;
@@ -175,15 +181,9 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
   }
 
   function show(volumes, scale) {
-    if (!scale.comparison) outgoing = [];
-    const nextTargets = comparisonCounts(volumes, scale);
-    if (activeScale?.comparison && scale.comparison && unit !== scale.volumePerCube) {
-      progress.forEach((amounts, group) => {
-        if (amounts.some(value => value > 0)) outgoing.push({ amounts: [...amounts], scale: activeScale,
-          offset: (group ? 1 : -1) * separation(activeScale) });
-      });
-    }
-    cancelAnimationFrame(frame);
+    const nextTargets = countsFor(volumes, scale);
+    const keepLoop = scale.comparison && animatingComparison && !reducedMotion.matches;
+    if (!keepLoop) cancelAnimationFrame(frame);
     if (scrubState || unit !== scale.volumePerCube || targets.length !== nextTargets.length) {
       progress = nextTargets.map(() => []);
     }
@@ -198,22 +198,29 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
     targets = nextTargets;
     if (reducedMotion.matches) {
       progress = targets.map(count => Array(count).fill(1));
-      outgoing = [];
+      animatingComparison = false;
       draw();
       return;
     }
 
+    if (keepLoop) return;
+    animatingComparison = Boolean(scale.comparison);
     animate(elapsed => {
-      outgoing = outgoing.map(pile => ({ ...pile, amounts: retargetPile(pile.amounts, 0, elapsed) })).filter(pile => pile.amounts.length);
-      if (!outgoing.length) progress = targets.map((count, index) => retargetPile(progress[index], count, elapsed));
+      // A settled comparison pile keeps its slot progress, even when its neighbour changes.
+      progress = targets.map((count, index) => {
+        const pile = progress[index];
+        return scale.comparison && pileIsSettled(pile, count) ? pile : retargetPile(pile, count, elapsed);
+      });
       const movingCamera = draw(elapsed);
-      return outgoing.length > 0 || movingCamera || progress.some((pile, index) => pile.length !== targets[index] || pile.some(value => value < 1));
+      const movingPiles = progress.some((pile, index) => !pileIsSettled(pile, targets[index]));
+      if (!movingCamera && !movingPiles) animatingComparison = false;
+      return movingCamera || movingPiles;
     });
   }
 
   function scrubScale(fraction, from, to, { animateValues = false } = {}) {
     comparisonPose = undefined;
-    outgoing = [];
+    animatingComparison = false;
     cancelAnimationFrame(frame);
     const t = reducedMotion.matches ? Number(fraction >= 1) : fraction;
     const layout = scaleTransition(t, to.count, from.zoom, to.zoom);
@@ -261,9 +268,9 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
   function scrubComparison(fraction, from, scale, volumes, sourceAspect) {
     const t = reducedMotion.matches ? Number(fraction >= 1) : fraction;
     if (t === 0) { scrubScale(0, from, from); return; }
-    const counts = comparisonCounts(volumes, scale);
+    const counts = countsFor(volumes, scale);
     cancelAnimationFrame(frame);
-    outgoing = [];
+    animatingComparison = false;
     scrubState = undefined;
     scrubTarget = undefined;
     scrollPose = undefined;
@@ -272,9 +279,14 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
     unit = scale.volumePerCube;
     edgeRatio = scale.edgeRatio;
     zoom = scale.zoom;
-    comparisonPose = { t, from, scale, counts, sourceAspect };
-    targets = counts;
-    progress = [Array(counts[0]).fill(1), Array(counts[1]).fill(0).map((_, i) => Math.max(0, Math.min(1, counts[1] * t - i)))];
+    // Regroup the moving city in place before the glacier enters at the shared unit.
+    const regroup = scaleTransition(t / 0.65, counts[0], from.zoom, scale.zoom);
+    const glacierGrowth = Math.max(0, (t - 0.65) / 0.35);
+    comparisonPose = { t, from, scale, counts, sourceAspect, regroup, glacierGrowth };
+    if (t === 1) {
+      targets = counts;
+      progress = counts.map(count => Array(count).fill(1));
+    }
     draw();
   }
 

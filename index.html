@@ -13,13 +13,15 @@
       <p><a href="./overview.html">Open the glacier data overview</a></p>
       <div id="story" class="story" hidden>
         <div class="story-stage">
-          <nav class="chapter-nav" aria-label="Story chapters">
-            <a href="#individual">01 Individual</a>
-            <a href="#apartment">02 Apartment</a>
-            <a href="#city">03 City</a>
-            <a href="#comparison">04 Comparison</a>
-          </nav>
-          <h2 id="chapter-title" tabindex="-1"></h2>
+          <header class="chapter-header">
+            <nav class="chapter-nav" aria-label="Story chapters">
+              <a href="#individual">01 Individual</a>
+              <a href="#apartment">02 Apartment</a>
+              <a href="#city">03 City</a>
+              <a href="#comparison">04 Comparison</a>
+            </nav>
+            <h2 id="chapter-title" tabindex="-1"></h2>
+          </header>
           <div class="story-composition">
             <div id="chapter-context" class="chapter-context">
               <div id="individual-context">
@@ -41,7 +43,20 @@
             <div id="cube-stage"></div>
           </div>
           <p id="cube-render-status" role="status"></p>
-          <div id="comparison-labels" hidden><span id="comparison-city-label"></span><span id="comparison-glacier-label"></span></div>
+          <div id="comparison-labels" hidden>
+            <div class="comparison-city-headings">
+              <span id="individual-consumption-label" hidden>One Zürich resident · consumption</span>
+              <button type="button" id="comparison-city-heading" title="Scroll sideways or click to change city">
+                <span id="comparison-city-label"></span> <span aria-hidden="true">↔</span>
+              </button>
+              <button type="button" id="comparison-period-heading" title="Scroll sideways or click to change consumption period">
+                <span id="comparison-period-label"></span> <span aria-hidden="true">↔</span>
+              </button>
+            </div>
+            <button type="button" id="comparison-glacier-heading" hidden title="Scroll sideways or click to change glacier">
+              <span id="comparison-glacier-label"></span> <span aria-hidden="true">↔</span>
+            </button>
+          </div>
           <div id="story-controls">
             <div id="subject-controls" class="story-control" hidden>
               <button type="button" data-step="-1">‹</button>

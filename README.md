@@ -21,7 +21,9 @@ npm install
 npm run dev
 ```
 
-Open the address printed by Vite. The main route connects the individual, apartment and city chapters through vertical scrolling. Use the arrow buttons or selectors to change values. Horizontal trackpad gestures work over the relevant controls and visual areas. Each chapter shows its fixed cube unit and any volume left over after counting whole cubes. City panels use labelled map placeholders. Open `/overview.html` for the Task 06 plots and exact observations table.
+Open the address printed by Vite. The main route connects the individual, apartment, city and glacier comparison chapters through vertical scrolling. Use the arrow buttons or selectors to change values. Horizontal trackpad gestures work over the relevant controls and visual areas. Each chapter shows its fixed cube unit and any volume left over after counting whole cubes. City panels use labelled map placeholders. Open `/overview.html` for the Task 06 plots and exact observations table.
+
+Screen 04 uses one cube for every 500,000 m³ across all comparisons. The city pile regroups to this unit as it moves left from Screen 03. Each pile uses whole cubes, so the smallest city estimate (Zürich for 30 days) appears as seven cubes. The exact volumes, remainder and comparison ratio are shown separately. Sideways gestures on the city, period and glacier headings change those selections individually.
 
 Run `npm test` for checks against the supplied CSVs and `npm run build` to build both pages. See [PLAN.md](PLAN.md) for the approved roadmap. The screen descriptions below the project root are provisional references for future milestones.
 

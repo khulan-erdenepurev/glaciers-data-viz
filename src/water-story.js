@@ -53,13 +53,11 @@ export function mountWaterStory(cities, observations) {
 
   const usage = (area, count, days) =>
     litresToCubicMetres(waterUseLitres(count, area.litresPerResidentDay, days));
-  const comparisonScales = new Map(cityOptions.map(item =>
-    [item, comparisonScale(usage(item, item.residents, 365), comparisonRecords)]));
-  const comparisonLimit = Math.max(...Array.from(comparisonScales.values(), scale => scale.limit));
+  const sharedScale = comparisonScale(cityOptions.map(item => usage(item, item.residents, 365)), comparisonRecords);
 
   story.hidden = false;
   try {
-    scene = createCubeScene(stage, { frameHalfWidth: 3.15, comparisonLimit });
+    scene = createCubeScene(stage, { frameHalfWidth: 3.15, comparisonLimit: sharedScale.limit });
   } catch {
     stage.hidden = true;
     get('cube-render-status').textContent = 'WebGL is unavailable. The calculated volumes are still shown.';
@@ -69,8 +67,7 @@ export function mountWaterStory(cities, observations) {
     const record = comparisonRecords.find(row => row.glacierId === glacier.id);
     const loss = glacierLoss(record);
     const cityVolume = usage(city, city.residents, sharedDays);
-    const scale = comparisonScales.get(city);
-    return { loss, cityVolume, scale, volumes: [cityVolume, loss ?? 0] };
+    return { loss, cityVolume, scale: sharedScale, volumes: [cityVolume, loss ?? 0] };
   }
 
   function comparisonLayout(progress) {
@@ -81,7 +78,7 @@ export function mountWaterStory(cities, observations) {
   function chapterVolume(index) {
     if (index === 3) {
       const state = comparisonState();
-      return { ...state.scale, volume: state.cityVolume, ...quantifyVolume(state.cityVolume, state.scale.volumePerCube) };
+      return { ...state.scale, volume: state.cityVolume, ...quantifyVolume(state.cityVolume, state.scale.volumePerCube, state.scale.limit) };
     }
     const area = index === 2 ? city : zurich;
     const residentsInView = [1, residents, city.residents][index];
@@ -100,8 +97,9 @@ export function mountWaterStory(cities, observations) {
       const style = getComputedStyle(composition);
       const share = Number(style.getPropertyValue('--city-stage-share'));
       const sourceWidth = (composition.clientWidth - parseFloat(style.columnGap)) * share;
-      scene?.scrubComparison(fraction, chapterVolume(2), state.scale, state.volumes, sourceWidth / stage.clientHeight);
-      get('cube-scale-note').textContent = `Shared comparison unit: ${format.format(state.scale.volumePerCube)} m³ per cube. City moves left; annual glacier net loss enters right.`;
+      const source = chapterVolume(2);
+      scene?.scrubComparison(fraction, source, state.scale, state.volumes, sourceWidth / stage.clientHeight);
+      get('cube-scale-note').textContent = `The city pile regroups from ${format.format(source.volumePerCube)} to ${format.format(state.scale.volumePerCube)} m³ per cube for the comparison.`;
       return;
     }
     comparisonLayout(0);
@@ -133,11 +131,21 @@ export function mountWaterStory(cities, observations) {
     }
 
     const state = chapter === 3 ? comparisonState() : null;
-    get('comparison-labels').hidden = chapter !== 3;
+    get('comparison-labels').hidden = false;
+    get('individual-consumption-label').hidden = chapter !== 0;
+    const subjectHeading = get('comparison-city-heading');
+    subjectHeading.hidden = chapter === 0;
+    subjectHeading.title = chapter === 1
+      ? 'Scroll sideways or click to change residents'
+      : 'Scroll sideways or click to change city';
+    get('comparison-city-label').textContent = chapter === 1
+      ? `${residents} residents · apartment consumption`
+      : `${cityName(city)} · consumption`;
+    get('comparison-period-label').textContent = period.selectedOptions[0].textContent;
+    get('comparison-glacier-heading').hidden = chapter !== 3;
     get('comparison-values').hidden = chapter !== 3;
     glacierControls.hidden = chapter !== 3;
     if (state) {
-      get('comparison-city-label').textContent = `${cityName(city)} · consumption`;
       get('comparison-glacier-label').textContent = `${glacier.name} · net loss`;
       const ratio = lossRatio(state.loss, state.cityVolume);
       const glacierCubes = quantifyVolume(state.loss ?? 0, state.scale.volumePerCube, state.scale.limit);
@@ -153,7 +161,9 @@ export function mountWaterStory(cities, observations) {
       drawTransition(transition, true);
     } else {
       comparisonLayout(chapter === 3 ? 1 : 0);
-      get('cube-scale-note').textContent = chapter >= 2 ? cityScaleNote + (chapter === 3 ? ' Both mountains use this same unit and camera.' : '') : '';
+      get('cube-scale-note').textContent = chapter === 3
+        ? 'Both piles use this fixed cube unit for every comparison. Remainders below one cube are listed separately.'
+        : chapter === 2 ? cityScaleNote : '';
       scene?.show(state ? state.volumes : [volume], scale);
     }
   }
@@ -242,18 +252,46 @@ export function mountWaterStory(cities, observations) {
     }, { signal });
   }
 
+  const headings = [
+    [get('comparison-city-heading'), subject],
+    [get('comparison-period-heading'), period],
+    [get('comparison-glacier-heading'), glacierSelect],
+  ];
+  for (const [heading, select] of headings) {
+    heading.addEventListener('click', () => stepOption(select, 1), { signal });
+  }
+
+  const apartmentPanel = get('chapter-context');
   let lastWheel = -Infinity;
-  for (const [target, select] of [[glacierControls, glacierSelect], [get('comparison-glacier-label'), glacierSelect], [get('comparison-city-label'), subject], [subjectControls, subject], [get('city-map'), subject],
-    [get('resident-icons'), subject], [get('building-floors'), subject],
-    [periodControls, period], [stage, period], [get('cube-values'), period], [get('city-population'), period]]) {
+  let horizontalDistance = 0;
+  let wheelConsumed = false;
+  let wheelSelection;
+  const wheelZones = [
+    ...headings,
+    [glacierControls, glacierSelect], [subjectControls, subject], [get('city-map'), subject],
+    [apartmentPanel, subject], [periodControls, period], [stage, period],
+    [get('cube-values'), period], [get('city-population'), period],
+  ];
+  for (const [target, select] of wheelZones) {
     target.addEventListener('wheel', event => {
-      if (event.ctrlKey || !event.cancelable || Math.abs(event.deltaX) <= 1.5 * Math.abs(event.deltaY) ||
-          Math.abs(event.deltaX) < 1) return;
+      if ((target === apartmentPanel && chapter !== 1) || event.ctrlKey || !event.cancelable ||
+          Math.abs(event.deltaX) <= 1.5 * Math.abs(event.deltaY) || !event.deltaX) return;
       event.preventDefault();
       const selection = chapter === 3 && target === stage
         ? (event.clientX < stage.getBoundingClientRect().left + stage.clientWidth / 2 ? subject : glacierSelect) : select;
-      if (event.timeStamp - lastWheel > 180) stepOption(selection, Math.sign(event.deltaX));
+      if (event.timeStamp - lastWheel > 180) {
+        horizontalDistance = 0;
+        wheelConsumed = false;
+        wheelSelection = selection;
+      }
       lastWheel = event.timeStamp;
+      if (wheelConsumed || selection !== wheelSelection) return;
+      const deltaMode = event.deltaMode;
+      horizontalDistance += event.deltaX * (deltaMode === 1 ? 16 : deltaMode === 2 ? window.innerWidth : 1);
+      if (Math.abs(horizontalDistance) >= 12) {
+        stepOption(selection, Math.sign(horizontalDistance));
+        wheelConsumed = true;
+      }
     }, { passive: false, signal });
   }
 

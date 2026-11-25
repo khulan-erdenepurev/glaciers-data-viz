@@ -48,3 +48,7 @@ export function retargetPile(progress, count, elapsed) {
   while (next.length && next.at(-1) === 0 && next.length > count) next.pop();
   return next;
 }
+
+export function pileIsSettled(progress, count) {
+  return progress.length === count && progress.every(amount => amount === 1);
+}

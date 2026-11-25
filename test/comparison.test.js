@@ -2,19 +2,19 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import { parseCities, parseGlacierBalances, glaciers, waterUseLitres, litresToCubicMetres } from '../src/data.js';
-import { cityCubeScale } from '../src/scale-transition.js';
-import { comparisonScale, glacierLoss, lossRatio } from '../src/comparison.js';
+import { comparisonScale, comparisonVolumePerCube, glacierLoss, lossRatio } from '../src/comparison.js';
 import { createPileSlots, quantifyVolume } from '../src/cube-layout.js';
 const read = path => readFileSync(new URL('../data/' + path, import.meta.url), 'utf8');
 const records = parseGlacierBalances(read('massbalance_2025_r2025/massbalance_fixdate_2025_r2025.csv')).filter(row => row.year === 2025);
 const cities = parseCities(read('residents_cities_water_usage.csv'), read('KANTON_ZUERICH_469.csv'));
 const volume = (city, days) => litresToCubicMetres(waterUseLitres(city.residents, city.litresPerResidentDay, days));
+const scale = comparisonScale(cities.map(city => volume(city, 365)), records);
+
 test('all 50 comparisons use shared bounded units and exact signed-loss ratios', () => {
   assert.equal(records.length, 5);
+  assert.equal(scale.volumePerCube, comparisonVolumePerCube);
   let combinations = 0;
   for (const city of cities) {
-    const scale = comparisonScale(volume(city, 365), records);
-    assert.equal(scale.volumePerCube, cityCubeScale(volume(city, 365)).volumePerCube);
     for (const days of [30, 365]) for (const glacier of glaciers) {
       const record = records.find(row => row.glacierId === glacier.id);
       const loss = glacierLoss(record);
@@ -25,6 +25,9 @@ test('all 50 comparisons use shared bounded units and exact signed-loss ratios',
         assert.ok(Math.abs(cubes.represented + cubes.remainder - v) < 1e-6);
       }
       assert.equal(lossRatio(loss, volume(city, days)), loss / volume(city, days));
+      const cityCount = quantifyVolume(volume(city, days), scale.volumePerCube, scale.limit).count;
+      const glacierCount = quantifyVolume(loss, scale.volumePerCube, scale.limit).count;
+      assert.equal(Math.sign(glacierCount - cityCount), Math.sign(loss - volume(city, days)));
       combinations++;
     }
   }
@@ -42,9 +45,8 @@ test('Aletsch 2025 is net loss, and gain/missing records are not losses', () => 
 });
 
 
-test('larger glacier stacks retain every established city slot and stay supported', () => {
+test('extended comparison stacks retain every established city slot and stay supported', () => {
   const citySlots = createPileSlots();
-  const scale = comparisonScale(volume(cities.find(city => city.name === 'Zurich'), 365), records);
   const slots = createPileSlots(scale.limit);
   assert.equal(slots.length, scale.limit);
   assert.deepEqual(slots.slice(0, citySlots.length), citySlots);
