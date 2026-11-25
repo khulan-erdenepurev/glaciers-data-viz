@@ -32,15 +32,74 @@ caption { text-align: left; padding: 0.35rem; }
 th, td { text-align: right; padding: 0.4rem 0.55rem; border-bottom: 1px solid #ddd; }
 th { position: sticky; top: 0; background: #eee; }
 
-#cube-controls {
+.story { display: grid; }
+.story[hidden], .story [hidden] { display: none; }
+.story-stage, .story-track { grid-area: 1 / 1; }
+.story-stage {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  z-index: 1;
+  padding: 0.65rem 0;
+  background: #f8f8f8;
+}
+.story-track { pointer-events: none; }
+.story-step { min-height: 100svh; }
+.chapter-nav, #story-controls, .story-control {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
-  border: 1px solid #ccc;
-  margin: 0 0 0.75rem;
-  padding: 0.75rem;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
 }
-
-#cube-stage { height: clamp(15rem, 50vw, 24rem); }
+.chapter-nav [aria-current] { font-weight: bold; }
+.story-stage h2 { margin: 0.65rem 0; }
+.story-composition {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr);
+  gap: 0.8rem;
+}
+.chapter-context, #cube-stage {
+  background: #eee;
+  min-width: 0;
+}
+.chapter-context {
+  display: grid;
+  align-items: center;
+  text-align: center;
+  padding: 0.55rem;
+}
+.chapter-context p { margin: 0.45rem 0 0; }
+#cube-stage { height: clamp(11rem, 45svh, 25rem); }
 #cube-stage canvas { display: block; }
-#cube-values { font-variant-numeric: tabular-nums; }
+#story-controls { margin-top: 0.6rem; }
+.story-control button { font: inherit; min-width: 1.9rem; cursor: pointer; }
+.story-control select { margin-inline-start: 0; }
+.story-values p { margin: 0.25rem 0; font-variant-numeric: tabular-nums; }
+#cube-values { font-weight: 650; }
+#cube-unit { font-size: 0.85rem; }
+#cube-render-status:empty { display: none; }
+.person-glyph {
+  display: inline-grid;
+  justify-items: center;
+  gap: 0.08em;
+  color: var(--accent);
+}
+.person-glyph::before, .person-glyph::after { content: ''; background: currentColor; }
+.person-glyph::before { width: 0.36em; height: 0.36em; border-radius: 50%; }
+.person-glyph::after { width: 0.65em; height: 0.56em; border-radius: 50% 50% 18% 18%; }
+.hero-person { font-size: 4rem; }
+.apartment-figures { display: flex; align-items: end; justify-content: center; gap: 0.65rem; }
+.resident-icons { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.11rem; font-size: clamp(0.42rem, 1.6vw, 0.85rem); }
+.building-floors { display: grid; width: clamp(1.55rem, 6vw, 3.8rem); border: 1px solid #555; }
+.building-floor {
+  height: clamp(0.5rem, 2vw, 1.3rem);
+  border-bottom: 1px solid #555;
+  background: repeating-linear-gradient(90deg, #aaa 0 22%, #ddd 22% 33%);
+}
+.building-floor:last-child { border-bottom: 0; }
+.city-map { border: 1px dashed #777; padding: 1.1rem 0.25rem; }
+@media (max-width: 39rem) {
+  #story-controls { gap: 0.25rem; }
+  .story-composition { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+  #cube-stage { height: clamp(9rem, 33svh, 16rem); }
+}

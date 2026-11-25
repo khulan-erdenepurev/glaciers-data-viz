@@ -11,38 +11,64 @@
       <h1>Swiss glaciers and urban water use</h1>
       <p id="status" role="status">Loading source data…</p>
       <p><a href="./overview.html">Open the glacier data overview</a></p>
-      <section aria-labelledby="cube-title">
-        <h2 id="cube-title">Water volume test scene</h2>
-        <p>Water accumulates in fixed-size cubes. Each view has its own cube unit, and both cities share a unit in the comparison. Remainders are listed below the scene.</p>
-        <fieldset id="cube-controls" disabled>
-          <label>View
-            <select id="cube-mode">
-              <option value="person">One resident</option>
-              <option value="building">Apartment building</option>
-              <option value="compare">Zürich and another city</option>
-            </select>
-          </label>
-          <label id="residents-field" hidden>Residents
-            <select id="cube-residents">
-              <option>40</option><option>50</option><option>60</option><option>70</option><option>80</option>
-            </select>
-          </label>
-          <label id="city-field" hidden>Other city <select id="cube-city"></select></label>
-          <label>Period
-            <select id="cube-period">
-              <option value="1">Day</option>
-              <option value="30" selected>30-day month</option>
-              <option value="365">365-day year</option>
-            </select>
-          </label>
-        </fieldset>
-        <div id="cube-stage"></div>
-        <div role="status">
-          <p id="cube-unit"></p>
-          <ul id="cube-values"></ul>
+      <div id="story" class="story" hidden>
+        <div class="story-stage">
+          <nav class="chapter-nav" aria-label="Story chapters">
+            <a href="#individual">01 Individual</a>
+            <a href="#apartment">02 Apartment</a>
+            <a href="#city">03 City</a>
+          </nav>
+          <h2 id="chapter-title" tabindex="-1"></h2>
+          <div class="story-composition">
+            <div id="chapter-context" class="chapter-context">
+              <div id="individual-context">
+                <span class="person-glyph hero-person" aria-hidden="true"></span>
+                <p>One Zürich resident</p>
+              </div>
+              <div id="apartment-context" hidden>
+                <div class="apartment-figures">
+                  <div id="resident-icons" class="resident-icons" aria-hidden="true"></div>
+                  <div id="building-floors" class="building-floors" aria-hidden="true"></div>
+                </div>
+                <p id="building-caption"></p>
+              </div>
+              <div id="city-context" hidden>
+                <div id="city-map" class="city-map"></div>
+                <p id="city-population"></p>
+              </div>
+            </div>
+            <div id="cube-stage"></div>
+          </div>
+          <p id="cube-render-status" role="status"></p>
+          <div id="story-controls">
+            <div id="subject-controls" class="story-control" hidden>
+              <button type="button" data-step="-1">‹</button>
+              <label for="story-subject" id="subject-label"></label>
+              <select id="story-subject"></select>
+              <button type="button" data-step="1">›</button>
+            </div>
+            <div id="period-controls" class="story-control">
+              <button type="button" data-step="-1" aria-label="Previous period">‹</button>
+              <label for="story-period">Period</label>
+              <select id="story-period">
+                <option value="1">Day</option>
+                <option value="30" selected>30-day month</option>
+                <option value="365">365-day year</option>
+              </select>
+              <button type="button" data-step="1" aria-label="Next period">›</button>
+            </div>
+          </div>
+          <div class="story-values" role="status">
+            <p id="cube-values"></p>
+            <p id="cube-unit"></p>
+          </div>
         </div>
-        <p id="cube-render-status" role="status"></p>
-      </section>
+        <div class="story-track" aria-hidden="true">
+          <div class="story-step" id="individual"></div>
+          <div class="story-step" id="apartment"></div>
+          <div class="story-step" id="city"></div>
+        </div>
+      </div>
     </main>
   </body>
 </html>

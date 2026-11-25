@@ -9,4 +9,4 @@ Build a local experimental prototype with Vite, vanilla JavaScript, D3 and Three
 5. **Seasonal explorer.** Add winter and summer forms around a zero axis, signed annual balance, glacier selection and an observed-year timeline. Preserve the selected year when available and otherwise select the nearest observation. Keep city estimates fixed during timeline changes. Verify Aletsch 2025 volumes of +82.10 million m³ winter, −204.47 million m³ summer and −122.36 million m³ annual. Suppress the loss ratio in net-gain years.
 6. **Integration and submission preparation.** Verify dev and production builds, navigation in both directions, rapid state changes, keyboard controls, reduced motion, and readable values when WebGL is unavailable. Check Safari, Chromium and a narrow viewport. Document setup, attribution and limitations.
 
-Milestones 1 and 2 provide the data overview and cube test scene. The scroll sequence begins in Milestone 3.
+Milestones 1–3 provide the data overview, reusable cube renderer and first three scroll chapters.

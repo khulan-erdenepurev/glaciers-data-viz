@@ -21,7 +21,7 @@ npm install
 npm run dev
 ```
 
-Open the address printed by Vite. The main route reports the loaded datasets and offers a cube test scene with individual, apartment building and city comparison modes. Open `/overview.html` for the Task 06 plots and exact observations table.
+Open the address printed by Vite. The main route connects the individual, apartment and city chapters through vertical scrolling. Use the arrow buttons or selectors to change values. Horizontal trackpad gestures work over the relevant controls and visual areas. Each chapter shows its fixed cube unit and any volume left over after counting whole cubes. City panels use labelled map placeholders. Open `/overview.html` for the Task 06 plots and exact observations table.
 
 Run `npm test` for checks against the supplied CSVs and `npm run build` to build both pages. See [PLAN.md](PLAN.md) for the approved roadmap. The screen descriptions below the project root are provisional references for future milestones.
 

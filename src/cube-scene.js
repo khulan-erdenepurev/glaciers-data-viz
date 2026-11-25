@@ -4,7 +4,7 @@ import {
 } from 'three';
 import { createPileSlots, maxCubesPerPile, quantifyVolume, retargetPile } from './cube-layout.js';
 
-export function createCubeScene(container) {
+export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
   const renderer = new WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.append(renderer.domElement);
@@ -58,7 +58,7 @@ export function createCubeScene(container) {
     const height = container.clientHeight;
     if (!width || !height) return;
     const aspect = width / height;
-    const halfHeight = Math.max(2.6, 5.3 / aspect);
+    const halfHeight = Math.max(2.6, frameHalfWidth / aspect);
     camera.left = -halfHeight * aspect;
     camera.right = halfHeight * aspect;
     camera.top = halfHeight;
