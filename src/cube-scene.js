@@ -4,9 +4,9 @@ import {
 } from 'three';
 import { createPileSlots, maxCubesPerPile, quantifyVolume, retargetPile } from './cube-layout.js';
 import { advanceTransitionCounts, scaleTransition } from './scale-transition.js';
-import { cityFrame, pileFrame, mixFrame, revealProgress, viewDirection } from './camera-framing.js';
+import { cityFrame, pileFrame, mixFrame, revealProgress, viewDirection, viewRight, comparisonFrame } from './camera-framing.js';
 
-export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
+export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLimit = maxCubesPerPile } = {}) {
   const renderer = new WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.append(renderer.domElement);
@@ -18,7 +18,7 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
   const geometry = new BoxGeometry();
   const materials = ['#49858b', '#49858b', '#a1c9cc', '#315c60', '#6da3a8', '#6da3a8']
     .map(color => new MeshBasicMaterial({ color }));
-  const mesh = new InstancedMesh(geometry, materials, maxCubesPerPile * 2);
+  const mesh = new InstancedMesh(geometry, materials, maxCubesPerPile + comparisonLimit);
   mesh.frustumCulled = false;
   scene.add(mesh);
 
@@ -28,7 +28,7 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
 
   const transform = new Object3D();
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const slots = createPileSlots();
+  const slots = createPileSlots(comparisonLimit);
   const edge = 0.26;
   let unit;
   let targets = [];
@@ -43,6 +43,12 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
   let cameraFrame;
   let scrubTarget;
   let animateScrubCamera = false;
+  let comparisonPose;
+  let outgoing = [];
+  const separation = scale => edge * scale.edgeRatio * 17;
+  function comparisonCounts(volumes, scale) {
+    return volumes.map(volume => quantifyVolume(volume, scale.volumePerCube, scale.limit).count);
+  }
 
   function baseFrame(scale, aspect) {
     return { center: new Vector3(0, 0.9 * scale.zoom, 0), halfHeight: Math.max(2.6, frameHalfWidth / aspect) * scale.zoom };
@@ -60,6 +66,12 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
   }
 
   function desiredFrame(aspect) {
+    if (comparisonPose) {
+      const { t, from, scale, counts, sourceAspect } = comparisonPose;
+      return mixFrame(settledFrame(from, from.count, sourceAspect),
+        comparisonFrame(slots, counts, edge * scale.edgeRatio, aspect, separation(scale)), t * t * (3 - 2 * t));
+    }
+    if (activeScale?.comparison && !scrollPose) return comparisonFrame(slots, targets, edge * edgeRatio, aspect, separation(activeScale));
     if (!scrollPose) return settledFrame(activeScale, targets[0] ?? 0, aspect);
     const { t, from, to } = scrollPose;
     const narrative = baseFrame({ zoom }, aspect);
@@ -73,7 +85,7 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
     const aspect = container.clientWidth / container.clientHeight;
     if (!Number.isFinite(aspect) || !aspect) return;
     const desired = desiredFrame(aspect);
-    cameraFrame = !cameraFrame || immediate || (scrollPose && !animateScrubCamera) || reducedMotion.matches
+    cameraFrame = !cameraFrame || immediate || ((scrollPose || comparisonPose) && !animateScrubCamera) || reducedMotion.matches
       ? desired : mixFrame(cameraFrame, desired, 1 - Math.exp(-elapsed / 180));
     const { halfHeight, center } = cameraFrame;
     camera.left = -halfHeight * aspect;
@@ -96,14 +108,21 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
       const spacing = size * 1.045;
       const liftScale = scrubState ? Math.min(scale, zoom * 0.65) : scale;
       const lift = (1 - amount) ** 2 * (0.85 + (index % 7) * 0.12) * liftScale;
-      transform.position.set(offset + x * spacing, y * spacing + size / 2 + lift, z * spacing);
+      transform.position.set(x * spacing, y * spacing + size / 2 + lift, z * spacing).addScaledVector(viewRight, offset);
       transform.scale.setScalar(size);
       transform.updateMatrix();
       mesh.setMatrixAt(instance++, transform.matrix);
     }
 
     outline.visible = Boolean(scrubState?.groupingOpacity);
-    if (scrubState) {
+    if (outgoing.length) {
+      outgoing.forEach(pile => pile.amounts.forEach((amount, index) => place(index, amount, pile.scale.edgeRatio, pile.offset)));
+    } else if (comparisonPose) {
+      const { t, counts, scale } = comparisonPose;
+      for (let i = 0; i < counts[0]; i++) place(i, 1, scale.edgeRatio, -separation(scale) * t);
+      const growing = counts[1] * t;
+      for (let i = 0; i < Math.ceil(growing); i++) place(i, Math.min(1, growing - i), scale.edgeRatio, separation(scale));
+    } else if (scrubState) {
       const { sourceWeight, sourceCount, growth, from, to } = scrubState;
       const remaining = sourceCount * sourceWeight;
       for (let i = 0; i < Math.ceil(remaining); i++) {
@@ -119,7 +138,7 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
       }
     } else {
       progress.forEach((pile, group) => {
-        const offset = progress.length === 2 ? (group === 0 ? -2.35 : 2.35) : 0;
+        const offset = progress.length === 2 ? (group === 0 ? -1 : 1) * separation(activeScale) : 0;
         pile.forEach((amount, index) => place(index, amount, edgeRatio, offset));
       });
     }
@@ -156,12 +175,20 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
   }
 
   function show(volumes, scale) {
-    const nextTargets = volumes.map(volume => quantifyVolume(volume, scale.volumePerCube).count);
+    if (!scale.comparison) outgoing = [];
+    const nextTargets = comparisonCounts(volumes, scale);
+    if (activeScale?.comparison && scale.comparison && unit !== scale.volumePerCube) {
+      progress.forEach((amounts, group) => {
+        if (amounts.some(value => value > 0)) outgoing.push({ amounts: [...amounts], scale: activeScale,
+          offset: (group ? 1 : -1) * separation(activeScale) });
+      });
+    }
     cancelAnimationFrame(frame);
     if (scrubState || unit !== scale.volumePerCube || targets.length !== nextTargets.length) {
       progress = nextTargets.map(() => []);
     }
     scrubState = undefined;
+    comparisonPose = undefined;
     scrollPose = undefined;
     scrubTarget = undefined;
     activeScale = scale;
@@ -171,18 +198,22 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
     targets = nextTargets;
     if (reducedMotion.matches) {
       progress = targets.map(count => Array(count).fill(1));
+      outgoing = [];
       draw();
       return;
     }
 
     animate(elapsed => {
-      progress = targets.map((count, index) => retargetPile(progress[index], count, elapsed));
+      outgoing = outgoing.map(pile => ({ ...pile, amounts: retargetPile(pile.amounts, 0, elapsed) })).filter(pile => pile.amounts.length);
+      if (!outgoing.length) progress = targets.map((count, index) => retargetPile(progress[index], count, elapsed));
       const movingCamera = draw(elapsed);
-      return movingCamera || progress.some((pile, index) => pile.length !== targets[index] || pile.some(value => value < 1));
+      return outgoing.length > 0 || movingCamera || progress.some((pile, index) => pile.length !== targets[index] || pile.some(value => value < 1));
     });
   }
 
   function scrubScale(fraction, from, to, { animateValues = false } = {}) {
+    comparisonPose = undefined;
+    outgoing = [];
     cancelAnimationFrame(frame);
     const t = reducedMotion.matches ? Number(fraction >= 1) : fraction;
     const layout = scaleTransition(t, to.count, from.zoom, to.zoom);
@@ -227,6 +258,26 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
     }
   }
 
+  function scrubComparison(fraction, from, scale, volumes, sourceAspect) {
+    const t = reducedMotion.matches ? Number(fraction >= 1) : fraction;
+    if (t === 0) { scrubScale(0, from, from); return; }
+    const counts = comparisonCounts(volumes, scale);
+    cancelAnimationFrame(frame);
+    outgoing = [];
+    scrubState = undefined;
+    scrubTarget = undefined;
+    scrollPose = undefined;
+    animateScrubCamera = false;
+    activeScale = scale;
+    unit = scale.volumePerCube;
+    edgeRatio = scale.edgeRatio;
+    zoom = scale.zoom;
+    comparisonPose = { t, from, scale, counts, sourceAspect };
+    targets = counts;
+    progress = [Array(counts[0]).fill(1), Array(counts[1]).fill(0).map((_, i) => Math.max(0, Math.min(1, counts[1] * t - i)))];
+    draw();
+  }
+
   function dispose() {
     observer.disconnect();
     cancelAnimationFrame(frame);
@@ -240,5 +291,5 @@ export function createCubeScene(container, { frameHalfWidth = 5.3 } = {}) {
   }
 
   resize();
-  return { show, scrubScale, dispose };
+  return { show, scrubScale, scrubComparison, dispose };
 }

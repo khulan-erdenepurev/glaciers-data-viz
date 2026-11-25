@@ -41,3 +41,15 @@ export function cityFrame(slots, count, annualCount, size, aspect) {
     halfHeight: Math.max(halfHeight, annual.halfHeight * 0.65) * 1.12 + 20,
   };
 }
+
+// Offsets follow the camera's horizontal axis: both piles share orientation and depth.
+export function comparisonFrame(slots, counts, size, aspect, separation) {
+  const combined = counts.flatMap((count, group) => slots.slice(0, count).map(slot => ({
+    x: slot.x + viewRight.x * (group ? separation : -separation) / (size * 1.045),
+    y: slot.y,
+    z: slot.z + viewRight.z * (group ? separation : -separation) / (size * 1.045),
+  })));
+  const result = pileFrame(combined, combined.length, size, aspect);
+  result.halfHeight = result.halfHeight * 1.12 + size;
+  return result;
+}

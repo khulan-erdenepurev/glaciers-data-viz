@@ -17,6 +17,7 @@
             <a href="#individual">01 Individual</a>
             <a href="#apartment">02 Apartment</a>
             <a href="#city">03 City</a>
+            <a href="#comparison">04 Comparison</a>
           </nav>
           <h2 id="chapter-title" tabindex="-1"></h2>
           <div class="story-composition">
@@ -40,6 +41,7 @@
             <div id="cube-stage"></div>
           </div>
           <p id="cube-render-status" role="status"></p>
+          <div id="comparison-labels" hidden><span id="comparison-city-label"></span><span id="comparison-glacier-label"></span></div>
           <div id="story-controls">
             <div id="subject-controls" class="story-control" hidden>
               <button type="button" data-step="-1">‹</button>
@@ -57,7 +59,13 @@
               </select>
               <button type="button" data-step="1" aria-label="Next period">›</button>
             </div>
+            <div id="glacier-controls" class="story-control" hidden>
+              <button type="button" data-step="-1" aria-label="Previous glacier">‹</button>
+              <label for="story-glacier">Glacier</label><select id="story-glacier"></select>
+              <button type="button" data-step="1" aria-label="Next glacier">›</button>
+            </div>
           </div>
+          <div id="comparison-values" hidden role="status"></div>
           <div class="story-values" role="status">
             <p id="cube-values"></p>
             <p id="cube-unit"></p>
@@ -68,6 +76,7 @@
           <div class="story-step" id="individual"></div>
           <div class="story-step" id="apartment"></div>
           <div class="story-step" id="city"></div>
+          <div class="story-step" id="comparison"></div>
         </div>
       </div>
     </main>

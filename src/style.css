@@ -106,3 +106,12 @@ th { position: sticky; top: 0; background: #eee; }
 
 #cube-scale-note { font-size: 0.85rem; }
 #cube-scale-note:empty { display: none; }
+
+.story-composition { --city-stage-share: 0.6226415094; }
+@media (max-width: 39rem) { .story-composition { --city-stage-share: 0.5555555556; } }
+.story[data-comparing] #chapter-context { opacity: calc(1 - var(--comparison-progress)); transform: translateX(calc(-100% * var(--comparison-progress))); }
+.story[data-comparing] #cube-stage { grid-column: 1 / -1; grid-row: 1; margin-left: calc((100% * (1 - var(--city-stage-share)) + 0.8rem * var(--city-stage-share)) * (1 - var(--comparison-progress))); }
+.story[data-comparing] #chapter-context { grid-column: 1; grid-row: 1; pointer-events: none; }
+#comparison-labels { display: flex; justify-content: space-around; gap: 1rem; font-weight: 600; }
+#comparison-values { font-size: .9rem; }
+#comparison-values p { margin: .2rem 0; }
