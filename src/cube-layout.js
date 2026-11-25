@@ -1,4 +1,4 @@
-export const maxCubesPerPile = 512;
+export const maxCubesPerPile = 1600;
 
 export function quantifyVolume(volume, volumePerCube) {
   if (!Number.isFinite(volume) || volume < 0 || !Number.isFinite(volumePerCube) || volumePerCube <= 0) {

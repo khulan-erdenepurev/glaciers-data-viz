@@ -103,3 +103,6 @@ th { position: sticky; top: 0; background: #eee; }
   .story-composition { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
   #cube-stage { height: clamp(9rem, 33svh, 16rem); }
 }
+
+#cube-scale-note { font-size: 0.85rem; }
+#cube-scale-note:empty { display: none; }
