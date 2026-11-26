@@ -1,3 +1,4 @@
+import { bindOrbit } from './orbit.js';
 import { mountGlacierExplorer } from './glacier-explorer.js';
 import { cityConsumption } from './swiss-water.js';
 import { apartmentScale, cityCubeScale, cubeScale, individualUnit } from './scale-transition.js';
@@ -21,7 +22,7 @@ function makeFigures(container, count, className) {
   }
 }
 
-export function mountWaterStory(cities, observations) {
+export function mountWaterStory(cities, observations, orbit) {
   const story = document.querySelector('#story');
   const get = id => story.querySelector(`#${id}`);
   const steps = Array.from(story.querySelectorAll('.story-step'));
@@ -54,18 +55,32 @@ export function mountWaterStory(cities, observations) {
   let scrollFrame;
   let transition;
 
-  const selectedConsumption = () => cityConsumption(city, sharedDays === 30 ? 'monthly' : 'annual');
+  const selectedConsumption = (municipality = city) => cityConsumption(municipality, sharedDays === 30 ? 'monthly' : 'annual');
   const annualVolumes = cityOptions.map(item => cityConsumption(item, 'annual').volumeM3).filter(Number.isFinite);
   const sharedScale = comparisonScale(annualVolumes, comparisonRecords);
+  // The largest supported controls set the visual envelope for each fixed cube unit.
+  const maximum = (volumes, scale) => Math.max(...volumes.map(volume =>
+    quantifyVolume(volume, scale.volumePerCube, scale.limit).count));
+  sharedScale.frameCount = maximum([...annualVolumes, ...comparisonRecords.map(glacierLoss).filter(Number.isFinite)], sharedScale);
+  const annualHousehold = residents =>
+    litresToCubicMetres(waterUseLitres(residents, zurichRate?.litresPerResidentDay, 365)) ?? 0;
+  const narrativeScales = [
+    { ...individualScale, frameCount: maximum([annualHousehold(1)], individualScale) },
+    { ...apartmentScale, frameCount: maximum([annualHousehold(residentCounts.at(-1))], apartmentScale) },
+    cityCubeScale(cityConsumption(zurich, 'annual').volumeM3 ?? 0),
+  ];
 
   story.hidden = false;
   try {
-    scene = createCubeScene(stage, { frameHalfWidth: 3.15, comparisonLimit: sharedScale.limit });
+    scene = createCubeScene(stage, { comparisonLimit: sharedScale.limit, orbit });
   } catch {
     stage.hidden = true;
     get('cube-render-status').textContent = 'WebGL is unavailable. The calculated volumes are still shown.';
   }
 
+  story.classList.toggle('has-3d-context', Boolean(scene));
+  get('view-controls').hidden = !scene;
+  if (scene) bindOrbit(stage.parentElement, orbit, get('reset-orbit'), signal);
   const explorer = mountGlacierExplorer({ get, observations, cities: cityOptions, scene, signal,
     onSelection(glacierId, cityId, periodName) {
       glacier = glaciers.find(g => g.id === glacierId);
@@ -80,10 +95,10 @@ export function mountWaterStory(cities, observations) {
   });
   stageHeight.observe(story.querySelector('.story-stage'));
 
-  function comparisonState() {
+  function comparisonState(municipality = city) {
     const record = comparisonRecords.find(row => row.glacierId === glacier.id);
     const loss = glacierLoss(record);
-    const cityVolume = selectedConsumption().volumeM3;
+    const cityVolume = selectedConsumption(municipality).volumeM3;
     return { loss, cityVolume, scale: sharedScale, volumes: [cityVolume ?? 0, loss ?? 0] };
   }
 
@@ -97,18 +112,36 @@ export function mountWaterStory(cities, observations) {
       const state = comparisonState();
       return { ...state.scale, volume: state.cityVolume, ...quantifyVolume(state.cityVolume ?? 0, state.scale.volumePerCube, state.scale.limit) };
     }
-    const scale = index === 2 ? cityCubeScale(cityConsumption(city, 'annual').volumeM3 ?? 0)
-      : index === 1 ? apartmentScale : individualScale;
-    const volume = index === 2 ? selectedConsumption().volumeM3
+    const scale = narrativeScales[index];
+    const volume = index === 2 ? selectedConsumption(zurich).volumeM3
       : litresToCubicMetres(waterUseLitres(index === 0 ? 1 : residents,
         zurichRate?.litresPerResidentDay, index === 0 ? personDays : sharedDays));
     return { ...scale, volume, ...quantifyVolume(volume ?? 0, scale.volumePerCube) };
   }
 
   function drawTransition({ fromIndex, fraction }, animateValues = false) {
-    if (fromIndex === 2) {
+    scene?.setContext(Math.min(2, fromIndex + fraction), residents);
+    if (fromIndex === 3) {
+      comparisonLayout(1);
       const state = comparisonState();
-      comparisonLayout(fraction);
+      story.style.setProperty('--season-progress', fraction);
+      const heading = get('explorer-heading');
+      heading.hidden = !fraction;
+      if (fraction) {
+        const height = heading.offsetHeight + parseFloat(getComputedStyle(heading).marginBottom);
+        story.style.setProperty('--season-heading-height', `${height}px`);
+      }
+      get('season-axis').hidden = !scene || !fraction;
+      get('cube-scale-note').textContent = fraction ? 'The annual comparison gives way to the glacier’s winter and summer balances.' : '';
+      scene?.scrubSeasons(fraction, state.scale, state.volumes, explorer.preview(glacier.id));
+      return;
+    }
+    story.style.setProperty('--season-progress', 0);
+    get('explorer-heading').hidden = true;
+    get('season-axis').hidden = true;
+    if (fromIndex === 2) {
+      const state = comparisonState(zurich);
+      comparisonLayout(fraction * fraction * (3 - 2 * fraction));
       const composition = stage.parentElement;
       const style = getComputedStyle(composition);
       const share = Number(style.getPropertyValue('--city-stage-share'));
@@ -123,7 +156,7 @@ export function mountWaterStory(cities, observations) {
     const to = chapterVolume(fromIndex + 1);
     scene?.scrubScale(fraction, from, to, { animateValues });
     if (fraction <= 0 || fraction >= 1) return;
-    const destination = fromIndex === 0 ? `${residents} residents` : cityName(city);
+    const destination = fromIndex === 0 ? `${residents} residents` : cityName(zurich);
     const ratio = to.volumePerCube / from.volumePerCube;
     const wholeRatio = Math.abs(ratio - Math.round(ratio)) < 1e-8;
     const equivalence = `${wholeRatio ? '' : 'about '}${format.format(ratio)} source cubes`;
@@ -135,7 +168,9 @@ export function mountWaterStory(cities, observations) {
   function update() {
     const days = chapter === 0 ? personDays : sharedDays;
     const municipality = chapter >= 2;
-    const water = municipality ? selectedConsumption() : null;
+    const displayedCity = chapter === 2 ? zurich : city;
+    const water = municipality ? selectedConsumption(displayedCity) : null;
+    scene?.setContext(Math.min(chapter, 2), residents);
     period.options[1].textContent = municipality ? 'Monthly' : '30-day month';
     period.options[2].textContent = municipality ? 'Yearly' : '365-day year';
     period.value = String(days);
@@ -146,15 +181,16 @@ export function mountWaterStory(cities, observations) {
       get('building-caption').textContent = `${residents} residents · ${floors} illustrative floors`;
     }
     if (chapter >= 2) {
-      get('city-map').textContent = `${cityName(city)} · Map placeholder`;
-      get('city-population').textContent = `${format.format(city.population)} municipality residents (${city.populationYear})`;
+      get('city-map').textContent = cityName(displayedCity);
+      get('city-population').textContent = `${format.format(displayedCity.population)} municipality residents (${displayedCity.populationYear})`;
     }
 
     const state = chapter === 3 ? comparisonState() : null;
     get('comparison-labels').hidden = false;
-    get('individual-consumption-label').hidden = chapter !== 0;
+    get('individual-consumption-label').hidden = chapter !== 0 && chapter !== 2;
+    get('individual-consumption-label').textContent = chapter === 2 ? 'Zürich · consumption' : 'One Zürich resident · consumption';
     const subjectHeading = get('comparison-city-heading');
-    subjectHeading.hidden = chapter === 0;
+    subjectHeading.hidden = chapter === 0 || chapter === 2;
     subjectHeading.title = chapter === 1
       ? 'Scroll sideways or click to change residents'
       : 'Scroll sideways or click to change city';
@@ -205,6 +241,7 @@ export function mountWaterStory(cities, observations) {
 
   function activate(index) {
     if (chapter === index) return;
+    if (chapter === 2 && index === 3) city = zurich;
     chapter = index;
     story.dataset.chapter = steps[index].id;
     get('chapter-title').textContent = `0${index + 1} · ${titles[index]}`;
@@ -218,6 +255,7 @@ export function mountWaterStory(cities, observations) {
     get('explorer-readings').hidden = !exploring;
     get('season-axis').hidden = !exploring || stage.hidden;
     get('story-controls').hidden = exploring;
+    story.style.setProperty('--season-progress', exploring ? 1 : 0);
     story.querySelector('.story-values').hidden = exploring;
     if (exploring) {
       comparisonLayout(0);
@@ -226,10 +264,10 @@ export function mountWaterStory(cities, observations) {
       explorer.enter(glacier.id, city.municipalityId, sharedDays === 30 ? 'monthly' : 'annual');
       return;
     }
-    subjectControls.hidden = index === 0;
+    subjectControls.hidden = index === 0 || index === 2;
     period.options[0].hidden = index !== 0;
     period.options[0].disabled = index !== 0;
-    if (index !== 0) {
+    if (index === 1 || index === 3) {
       const label = index === 1 ? 'Residents' : 'City';
       const options = index === 1
         ? residentCounts.map(count => new Option(count, count))
@@ -251,17 +289,17 @@ export function mountWaterStory(cities, observations) {
     const nextTop = steps[index + 1]?.getBoundingClientRect().top ?? Infinity;
     const fraction = 1 - (nextTop - threshold) / travel;
     const previous = transition;
-    transition = index < 3 && fraction > 0 && fraction < 1 ? { fromIndex: index, fraction } : undefined;
+    transition = index < 4 && fraction > 0 && fraction < 1 ? { fromIndex: index, fraction } : undefined;
 
     if (previous && previous.fromIndex !== transition?.fromIndex) {
       drawTransition({ ...previous, fraction: index > previous.fromIndex ? 1 : 0 });
-    } else if (!previous && !transition && chapter >= 0 && chapter !== index && Math.max(chapter, index) < 4) {
+    } else if (!previous && !transition && chapter >= 0 && chapter !== index) {
       drawTransition(index > chapter ? { fromIndex: index - 1, fraction: 1 } : { fromIndex: index, fraction: 0 });
     }
 
     if (chapter !== index) activate(index);
     else if (transition) drawTransition(transition);
-    else if (previous?.fromIndex === 2) update();
+    else if (previous?.fromIndex >= 2) update();
     else if (previous) get('cube-scale-note').textContent = index === 2 ? cityScaleNote : '';
   }
 
@@ -272,7 +310,7 @@ export function mountWaterStory(cities, observations) {
 
   subject.addEventListener('change', () => {
     if (chapter === 1) residents = Number(subject.value);
-    if (chapter >= 2) city = cityOptions.find(item => item.municipalityId === subject.value);
+    if (chapter === 3) city = cityOptions.find(item => item.municipalityId === subject.value);
     update();
   }, { signal });
   glacierSelect.addEventListener('change', () => {
@@ -317,7 +355,7 @@ export function mountWaterStory(cities, observations) {
   const wheelZones = [
     ...headings,
     [get('explorer-glacier'), get('explorer-glacier')], [get('explorer-year'), get('explorer-year')],
-    [glacierControls, glacierSelect], [subjectControls, subject], [get('city-map'), subject],
+    [glacierControls, glacierSelect], [subjectControls, subject], [get('city-map'), period],
     [apartmentPanel, subject], [periodControls, period], [stage, period],
     [get('cube-values'), period], [get('city-population'), period],
   ];

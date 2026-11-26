@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { Vector3 } from 'three';
-import { cityFrame, mixFrame, revealProgress, viewRight, viewUp } from '../src/camera-framing.js';
+import { cityFrame, chapterCameraAt, chapterFrame, mixFrame, revealProgress, viewDirection, viewRight, viewUp } from '../src/camera-framing.js';
+import { createOrbit, orbitView } from '../src/orbit.js';
 import { createPileSlots, quantifyVolume } from '../src/cube-layout.js';
 import { cityCubeScale } from '../src/scale-transition.js';
 import { parseCities, waterUseLitres, litresToCubicMetres } from '../src/data.js';
@@ -45,4 +46,46 @@ test('late reveal has exact reversible endpoints and no jump at its start', () =
   const forward = [0, 0.55, 0.6, 0.8, 1].map(t => mixFrame(from, to, revealProgress(t)));
   const backward = [1, 0.8, 0.6, 0.55, 0].map(t => mixFrame(from, to, revealProgress(t))).reverse();
   assert.deepEqual(forward, backward);
+});
+
+test('orbit crosses the seam at full yaw and preserves elevation and a fixed frame', () => {
+  const orbit = createOrbit();
+  const changes = [];
+  const unsubscribe = orbit.subscribe(() => changes.push(orbit.angle));
+  const aspect = 0.7;
+  const frame = chapterFrame(slots, 300, 2, aspect);
+  for (const [input, bound] of [[90, 90], [180, 180], [270, 270], [359, 359], [361, 1], [-1, 359], [720, 0]]) {
+    orbit.set(input);
+    const view = orbitView(viewDirection, orbit.angle);
+    assert.equal(orbit.angle, bound);
+    assert.equal(view.direction.y, viewDirection.y);
+    assert.ok(Math.abs(view.direction.dot(view.right)) < 1e-12);
+    assert.ok(Math.abs(view.direction.dot(view.up)) < 1e-12);
+    for (const { x, y, z } of slots.slice(0, 300)) {
+      const center = new Vector3(2.09 * x, 2.09 * y + 1, 2.09 * z);
+      for (const dx of [-1, 1]) for (const dy of [-1, 1]) for (const dz of [-1, 1]) {
+        const corner = center.clone().add(new Vector3(dx, dy, dz)).sub(frame.center);
+        assert.ok(Math.abs(corner.dot(view.right)) <= frame.halfHeight * aspect);
+        assert.ok(Math.abs(corner.dot(view.up)) <= frame.halfHeight);
+      }
+    }
+  }
+  assert.ok(orbitView(viewDirection, 359).direction.distanceTo(orbitView(viewDirection, 361).direction) < 0.04);
+  unsubscribe();
+  assert.deepEqual(changes, [90, 180, 270, 359, 1, 359, 0]);
+});
+
+test('narrative camera covers a single monotonic path and returns to both fitted endpoints', () => {
+  const frames = [
+    chapterFrame(slots, 382, 1.1, 1.75),
+    chapterFrame(slots, 1584, 12.1, 1.75),
+    chapterFrame(slots, 244, 32.25, 2.8, 32.25 * 17),
+  ];
+  for (let i = 1; i < frames.length; i++) {
+    const [from, to] = frames.slice(i - 1, i + 1);
+    const samples = Array.from({ length: 101 }, (_, n) => chapterCameraAt(from, to, n / 100).halfHeight);
+    assert.equal(samples[0], from.halfHeight);
+    assert.ok(Math.abs(samples.at(-1) - to.halfHeight) < 1e-12);
+    assert.ok(samples.every((height, n) => n === 0 || height >= samples[n - 1]));
+  }
 });

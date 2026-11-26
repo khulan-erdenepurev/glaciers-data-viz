@@ -1,10 +1,13 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
+import { Vector3 } from 'three';
+import { viewDirection } from '../src/camera-framing.js';
+import { orbitView } from '../src/orbit.js';
 import { glaciers, parseGlacierBalances } from '../src/data.js';
 import { municipalContext, nearestObservation, seasonalBalance, seasonalScale } from '../src/seasonal-balance.js';
 import { advancePiles, createPileSlots, maxCubesPerPile } from '../src/cube-layout.js';
-import { seasonalFrame } from '../src/seasonal-frame.js';
+import { seasonalCubeY, seasonalDepthShift, seasonalExtent, seasonalFrame } from '../src/seasonal-frame.js';
 import { parseSwissWater } from '../src/swiss-water.js';
 
 const read = path => readFileSync(new URL('../data/' + path, import.meta.url), 'utf8');
@@ -94,6 +97,38 @@ test('historical explorer uses Swiss reference years, reports regional gaps and 
         assert.equal(context.ratio, null);
       } else {
         assert.equal(context.ratio, 122361375 / context.water.volumeM3);
+      }
+    }
+  }
+});
+
+test('settled, growing and leaving seasonal cubes meet world zero and the projected axis at every yaw', () => {
+  const slots = createPileSlots();
+  const size = 2;
+  for (const angle of [0, 45, 90, 180, 270, 359, 361]) {
+    const view = orbitView(viewDirection, angle);
+    const depth = new Vector3(view.direction.x, 0, view.direction.z).normalize();
+    for (const sign of [-1, 1]) {
+      for (const amounts of [0.15, 12.5, 164, [1, 1, 0.2, 0.45, 0, 0.02]]) {
+        const extent = seasonalExtent(slots, amounts, sign, size, view);
+        const shift = seasonalDepthShift(extent, sign, depth, view.up);
+        let projectedMinimum = Infinity, physicalMinimum = Infinity;
+        const length = typeof amounts === 'number' ? Math.ceil(amounts) : amounts.length;
+        for (let i = 0; i < length; i++) {
+          const amount = typeof amounts === 'number' ? Math.min(1, amounts - i) : amounts[i];
+          if (!amount) continue;
+          const slot = slots[i];
+          const center = new Vector3(slot.x * 2.09, seasonalCubeY(slot, size, sign, amount), slot.z * 2.09)
+            .addScaledVector(depth, shift);
+          const nearY = sign * Math.max(0, sign * center.y - size / 2);
+          physicalMinimum = Math.min(physicalMinimum, sign * nearY);
+          for (const x of [-1, 1]) for (const z of [-1, 1]) {
+            const corner = new Vector3(center.x + x, nearY, center.z + z);
+            projectedMinimum = Math.min(projectedMinimum, sign * corner.dot(view.up));
+          }
+        }
+        assert.equal(physicalMinimum, 0);
+        assert.ok(Math.abs(projectedMinimum) < 1e-12, `gap at ${angle}°, sign ${sign}`);
       }
     }
   }

@@ -24,24 +24,26 @@
             </nav>
             <h2 id="chapter-title" tabindex="-1"></h2>
           </header>
-          <section id="explorer-heading" class="explorer-heading" hidden aria-label="Glacier and hydrological year">
-            <div>
-              <label for="explorer-glacier">Glacier</label>
-              <select id="explorer-glacier"></select>
-            </div>
-            <div>
-              <label for="explorer-year">Hydrological year</label>
-              <div class="explorer-year-controls">
-                <button type="button" id="year-back" aria-label="Previous observation">‹</button>
-                <select id="explorer-year"></select>
-                <button type="button" id="year-forward" aria-label="Next observation">›</button>
+          <div class="explorer-heading-slot">
+            <section id="explorer-heading" class="explorer-heading" hidden aria-label="Glacier and hydrological year">
+              <div>
+                <label for="explorer-glacier">Glacier</label>
+                <select id="explorer-glacier"></select>
               </div>
-            </div>
-            <div class="net-result" aria-live="polite">
-              <span>Annual net balance</span>
-              <strong id="explorer-net"></strong>
-            </div>
-          </section>
+              <div>
+                <label for="explorer-year">Hydrological year</label>
+                <div class="explorer-year-controls">
+                  <button type="button" id="year-back" aria-label="Previous observation">‹</button>
+                  <select id="explorer-year"></select>
+                  <button type="button" id="year-forward" aria-label="Next observation">›</button>
+                </div>
+              </div>
+              <div class="net-result" aria-live="polite">
+                <span>Annual net balance</span>
+                <strong id="explorer-net"></strong>
+              </div>
+            </section>
+          </div>
           <div class="story-composition">
             <div id="chapter-context" class="chapter-context">
               <div id="individual-context">
@@ -62,6 +64,9 @@
             </div>
             <div id="cube-stage"></div>
             <div id="season-axis" hidden aria-hidden="true"><span>0</span></div>
+          </div>
+          <div id="view-controls" class="story-control orbit-controls" hidden>
+            <span>Drag sideways to rotate</span><button id="reset-orbit" type="button">Reset view</button>
           </div>
           <p id="cube-render-status" role="status"></p>
           <section id="explorer-readings" hidden aria-label="Seasonal observations">
@@ -145,7 +150,6 @@
       </div>
     </main>
     <section id="arena" class="arena" aria-labelledby="arena-title" hidden>
-      <canvas class="arena-contours" aria-hidden="true"></canvas>
       <div class="arena-inner">
         <nav class="arena-nav" aria-label="Story chapters">
           <a href="#individual">Swiss glaciers &amp; urban water</a>
@@ -162,6 +166,7 @@
           <p>Winter accumulation and summer mass loss · <span id="arena-year-caption"></span></p>
         </header>
         <div class="arena-tools">
+          <div class="orbit-controls"><span>Drag sideways to rotate</span> <button id="arena-reset-orbit" type="button">Reset view</button></div>
           <div class="arena-year" role="group" aria-label="Hydrological year">
             <button type="button" id="arena-earlier" aria-label="Previous hydrological year">‹</button>
             <select id="arena-year" aria-label="Hydrological year"></select>
@@ -176,7 +181,7 @@
         <p id="arena-scroll-note">Scroll sideways to view all glaciers ↔</p>
         <div class="arena-scroll" tabindex="0" role="region" aria-label="Glacier comparison stage">
           <div class="arena-stage">
-            <div class="arena-plot" aria-hidden="true">
+            <div class="arena-plot">
               <div class="arena-cubes"></div>
               <div class="arena-zero"><span id="arena-zero-label"></span></div>
             </div>

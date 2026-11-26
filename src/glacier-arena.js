@@ -1,4 +1,4 @@
-import { contours, geoPath } from 'd3';
+import { bindOrbit } from './orbit.js';
 import { arenaGlaciers, arenaModes, arenaCubeCapacity, arenaHistory, encodeGlacier, hydrologicalYear } from './arena-data.js';
 import { createArenaScene } from './arena-scene.js';
 import './arena.css';
@@ -6,28 +6,6 @@ import './arena.css';
 const number = new Intl.NumberFormat('en-CH', { maximumFractionDigits: 6 });
 const signed = new Intl.NumberFormat('en-CH', { maximumFractionDigits: 6, signDisplay: 'exceptZero' });
 const millions = new Intl.NumberFormat('en-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2, signDisplay: 'exceptZero' });
-
-function drawContours(canvas) {
-  const width = 150, height = 92;
-  const elevation = Array.from({ length: width * height }, (_, i) => {
-    const x = i % width, y = Math.floor(i / width);
-    const summit = Math.hypot((x - 92 + 5 * Math.sin(y / 8)) * 0.72, (y - 59) * 1.3);
-    return 100 - summit + 4 * Math.sin(x / 12 + y / 5) + 4 * Math.cos(x / 14 - y / 9);
-  });
-  canvas.width = 900;
-  canvas.height = 552;
-  const context = canvas.getContext('2d');
-  if (!context) return;
-  context.scale(6, 6);
-  context.strokeStyle = '#253649';
-  context.lineWidth = 0.14;
-  const path = geoPath(null, context);
-  for (const line of contours().size([width, height]).thresholds(32)(elevation)) {
-    context.beginPath();
-    path(line);
-    context.stroke();
-  }
-}
 
 function wheelStep(control, step, signal) {
   let last = -Infinity;
@@ -40,7 +18,7 @@ function wheelStep(control, step, signal) {
   }, { passive: false, signal });
 }
 
-export function mountGlacierArena(root, records) {
+export function mountGlacierArena(root, records, orbit) {
   const controller = new AbortController();
   const { signal } = controller;
   const get = selector => root.querySelector(selector);
@@ -61,7 +39,6 @@ export function mountGlacierArena(root, records) {
   let inspected;
   let scrollBeforeDuel = 0;
   yearControl.replaceChildren(...years.toReversed().map(end => new Option(hydrologicalYear(end), end)));
-  drawContours(get('.arena-contours'));
 
   get('#arena-histories').replaceChildren(...arenaGlaciers.map(glacier => {
     const observed = years.filter(end => history.get(end).has(glacier.id));
@@ -219,7 +196,15 @@ export function mountGlacierArena(root, records) {
     if (!entry.isIntersecting) return;
     observer.disconnect();
     try {
-      scene = createArenaScene(get('.arena-cubes'), arenaCubeCapacity(records), arenaGlaciers.length);
+      scene = createArenaScene(get('.arena-cubes'), arenaCubeCapacity(records), arenaGlaciers.length, orbit);
+      const plot = get('.arena-plot');
+      bindOrbit(plot, orbit, get('#arena-reset-orbit'), signal);
+      plot.addEventListener('click', event => {
+        if (duel) return;
+        const bounds = plot.getBoundingClientRect();
+        const glacier = arenaGlaciers[Math.floor((event.clientX - bounds.left) / bounds.width * arenaGlaciers.length)];
+        if (glacier) inspect(glacier);
+      }, { signal });
       render();
     } catch (error) {
       console.warn('Glacier arena renderer unavailable', error);

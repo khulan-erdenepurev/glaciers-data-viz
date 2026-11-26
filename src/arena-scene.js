@@ -1,14 +1,13 @@
 import { BoxGeometry, InstancedMesh, Object3D, OrthographicCamera, Plane, Scene, Vector3, WebGLRenderer } from 'three';
 import { createPileSlots, retargetPile, pileIsSettled } from './cube-layout.js';
-import { viewDirection, viewRight, viewUp } from './camera-framing.js';
+import { orbitView } from './orbit.js';
+import { framingEnvelope, viewDirection, viewUp } from './camera-framing.js';
 import { addSeasonLights, createSeasonMaterials } from './season-materials.js';
 
 const spacing = 1.035;
 const radius = axis => (Math.abs(axis.x) + Math.abs(axis.y) + Math.abs(axis.z)) / 2;
-const verticalRadius = radius(viewUp);
-const horizontalRadius = radius(viewRight);
 
-export function createArenaScene(host, capacity, columnCount) {
+export function createArenaScene(host, capacity, columnCount, orbit) {
   const renderer = new WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.localClippingEnabled = true;
@@ -18,25 +17,41 @@ export function createArenaScene(host, capacity, columnCount) {
   const scene = new Scene();
   addSeasonLights(scene);
   const camera = new OrthographicCamera(-1, 1, 1, -1, 0.1, 300);
-  camera.position.copy(viewDirection).multiplyScalar(100);
-  camera.lookAt(0, 0, 0);
   const geometry = new BoxGeometry();
   const transform = new Object3D();
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const slots = createPileSlots(capacity).map(({ x, y, z }) => {
-    const position = new Vector3(x, y, z).multiplyScalar(spacing);
-    return { position, height: position.dot(viewUp) };
-  });
-  const width = Math.max(...slots.map(({ position }) => Math.abs(position.dot(viewRight)))) + horizontalRadius;
-  const height = Math.max(...[1, -1].map(sign => {
-    const projected = slots.map(({ position }) => viewUp.x * position.x + viewUp.y * position.y * sign + viewUp.z * position.z);
-    return Math.max(...projected) - Math.min(...projected) + 2 * verticalRadius;
-  }));
+  const layoutSlots = createPileSlots(capacity);
+  const slots = layoutSlots.map(({ x, y, z }) => new Vector3(x, y, z).multiplyScalar(spacing));
+  const { radius: width, top } = framingEnvelope(layoutSlots, capacity, 1);
+  const height = top * viewUp.y + 2 * width * Math.hypot(viewUp.x, viewUp.z);
+  let view, verticalRadius;
+
+  function fitView() {
+    view = orbitView(viewDirection, orbit.angle);
+    camera.position.copy(view.direction).multiplyScalar(100);
+    camera.lookAt(0, 0, 0);
+    verticalRadius = radius(view.up);
+  }
+
+  function dockFor(count, sign) {
+    let dock = -Infinity;
+    for (const position of slots.slice(0, count)) {
+      const depth = position.x * view.up.x + position.z * view.up.z;
+      dock = Math.max(dock, verticalRadius - position.y * view.up.y - sign * depth);
+    }
+    return dock;
+  }
+
+  fitView();
   // Opposite clipping planes keep emerging cubes on their signed side of zero.
-  const materials = createSeasonMaterials({ dark: true });
+  const materials = createSeasonMaterials();
   const meshes = materials.map(material => [1, -1].map(sign => {
-    const side = material.clone();
-    side.clippingPlanes = [new Plane(viewUp.clone().multiplyScalar(sign), 0)];
+    const clippingPlanes = [new Plane(view.up.clone().multiplyScalar(sign), 0)];
+    const side = material.map(face => {
+      const meshFace = face.clone();
+      meshFace.clippingPlanes = clippingPlanes;
+      return meshFace;
+    });
     const mesh = new InstancedMesh(geometry, side, capacity * columnCount);
     mesh.frustumCulled = false;
     scene.add(mesh);
@@ -65,6 +80,9 @@ export function createArenaScene(host, capacity, columnCount) {
     camera.bottom = -halfHeight;
     camera.updateProjectionMatrix();
 
+    const { right, up } = view;
+    meshes.forEach(pair => pair.forEach((mesh, side) =>
+      mesh.material[0].clippingPlanes[0].normal.copy(up).multiplyScalar(side ? -1 : 1)));
     const counts = [[0, 0], [0, 0]];
     let moving = Math.abs(halfHeight - targetHeight) > 0.005;
     for (const [key, pile] of piles) {
@@ -84,13 +102,12 @@ export function createArenaScene(host, capacity, columnCount) {
       moving ||= Math.abs(dock - pile.targetDock) > 0.005;
       pile.progress.forEach((amount, index) => {
         if (amount <= 0) return;
-        const slot = slots[index];
-        transform.position.copy(slot.position);
+        transform.position.copy(slots[index]);
         transform.position.y *= pile.sign;
-        const signedHeight = transform.position.dot(viewUp);
+        const signedHeight = transform.position.dot(up);
         const emergence = (verticalRadius + pile.sign * signedHeight + dock) * amount - verticalRadius;
-        transform.position.addScaledVector(viewUp, pile.sign * emergence - signedHeight);
-        transform.position.addScaledVector(viewRight, offset);
+        transform.position.addScaledVector(up, pile.sign * emergence - signedHeight);
+        transform.position.addScaledVector(right, offset);
         transform.updateMatrix();
         mesh.setMatrixAt(counts[pile.season][side]++, transform.matrix);
       });
@@ -133,11 +150,7 @@ export function createArenaScene(host, capacity, columnCount) {
       [winter, summer].forEach(({ count, sign }, season) => {
         if (!count) return;
         const key = `${id}/${season}/${sign}`;
-        let targetDock = -Infinity;
-        for (const { position, height } of slots.slice(0, count)) {
-          const depth = height - position.y * viewUp.y;
-          targetDock = Math.max(targetDock, verticalRadius - position.y * viewUp.y - sign * depth);
-        }
+        const targetDock = dockFor(count, sign);
         const pile = piles.get(key) ?? { season, sign, progress: [], position, dock: targetDock };
         Object.assign(pile, { target: count, destination: position, targetDock });
         piles.set(key, pile);
@@ -146,12 +159,22 @@ export function createArenaScene(host, capacity, columnCount) {
     animate();
   }
 
+  const unsubscribe = orbit.subscribe(() => {
+    fitView();
+    for (const pile of piles.values()) {
+      const count = pile.target || pile.progress.length;
+      if (count) pile.dock = pile.targetDock = dockFor(count, pile.sign);
+    }
+    animate();
+  });
+
   function dispose() {
+    unsubscribe();
     observer.disconnect();
     cancelAnimationFrame(frame);
     geometry.dispose();
-    meshes.flat().forEach(mesh => { mesh.material.dispose(); mesh.dispose(); });
-    materials.forEach(material => { material.map.dispose(); material.dispose(); });
+    meshes.flat().forEach(mesh => { mesh.material.forEach(face => face.dispose()); mesh.dispose(); });
+    materials.flat().forEach(material => material.dispose());
     renderer.dispose();
     renderer.domElement.remove();
   }

@@ -116,6 +116,10 @@ export function mountGlacierExplorer({ get, observations, cities, scene, signal,
   }
   timeline.node().addEventListener('click', selectAtPointer, { signal });
   return {
+    preview(glacierId) {
+      const { winter, summer } = seasonalBalance(nearestObservation(byGlacier.get(glacierId), selectedYear));
+      return [winter.volume, summer.volume];
+    },
     enter(glacierId, cityId, periodName) {
       glacier.value = glacierId;
       city.value = cityId;
