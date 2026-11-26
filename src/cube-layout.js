@@ -52,3 +52,9 @@ export function retargetPile(progress, count, elapsed) {
 export function pileIsSettled(progress, count) {
   return progress.length === count && progress.every(amount => amount === 1);
 }
+
+// Retarget each formation independently, retaining all settled slots in its neighbour.
+export function advancePiles(progress, targets, elapsed) {
+  return targets.map((count, i) => pileIsSettled(progress[i], count)
+    ? progress[i] : retargetPile(progress[i], count, elapsed));
+}

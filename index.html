@@ -19,9 +19,29 @@
               <a href="#apartment">02 Apartment</a>
               <a href="#city">03 City</a>
               <a href="#comparison">04 Comparison</a>
+              <a href="#explorer">05 Glacier explorer</a>
+              <a href="#arena">06 5-glacier arena</a>
             </nav>
             <h2 id="chapter-title" tabindex="-1"></h2>
           </header>
+          <section id="explorer-heading" class="explorer-heading" hidden aria-label="Glacier and hydrological year">
+            <div>
+              <label for="explorer-glacier">Glacier</label>
+              <select id="explorer-glacier"></select>
+            </div>
+            <div>
+              <label for="explorer-year">Hydrological year</label>
+              <div class="explorer-year-controls">
+                <button type="button" id="year-back" aria-label="Previous observation">‹</button>
+                <select id="explorer-year"></select>
+                <button type="button" id="year-forward" aria-label="Next observation">›</button>
+              </div>
+            </div>
+            <div class="net-result" aria-live="polite">
+              <span>Annual net balance</span>
+              <strong id="explorer-net"></strong>
+            </div>
+          </section>
           <div class="story-composition">
             <div id="chapter-context" class="chapter-context">
               <div id="individual-context">
@@ -41,8 +61,35 @@
               </div>
             </div>
             <div id="cube-stage"></div>
+            <div id="season-axis" hidden aria-hidden="true"><span>0</span></div>
           </div>
           <p id="cube-render-status" role="status"></p>
+          <section id="explorer-readings" hidden aria-label="Seasonal observations">
+            <div class="season-readings" aria-live="polite">
+              <div><h3><i class="ice-sample"></i>Winter balance</h3><strong id="winter-value"></strong><small id="winter-specific"></small></div>
+              <div><h3><i class="water-sample"></i>Summer balance</h3><strong id="summer-value"></strong><small id="summer-specific"></small></div>
+            </div>
+            <p id="explorer-scale"></p>
+            <figure class="history">
+              <figcaption><strong>Annual balance through time</strong><span>mm water equivalent</span></figcaption>
+              <svg id="explorer-timeline" viewBox="0 0 820 98" role="img" aria-label="Annual balance by observation end year"></svg>
+              <p id="year-coverage"></p>
+            </figure>
+            <details>
+              <summary>Measurement details and source</summary>
+              <p id="explorer-measurement"></p>
+              <p id="explorer-remainders"></p>
+              <p>Winter and summer show seasonal change in water equivalent. Glacier area converts each millimetre of balance over one km² into 1,000 m³. These observations describe changes in stored mass. Remaining ice and river runoff are different quantities.</p>
+              <p>Source · GLAMOS fixed-date glacier mass balances, release 2025.</p>
+            </details>
+            <details>
+              <summary>Compare annual net loss with Swiss water use</summary>
+              <label>Municipality <select id="explorer-city"></select></label>
+              <label>Period <select id="explorer-period"><option value="monthly">Monthly</option><option value="annual">Yearly</option></select></label>
+              <p id="explorer-context"></p>
+              <a id="explorer-water-source">Municipal water source</a>
+            </details>
+          </section>
           <div id="comparison-labels" hidden>
             <div class="comparison-city-headings">
               <span id="individual-consumption-label" hidden>One Zürich resident · consumption</span>
@@ -84,6 +131,7 @@
           <div class="story-values" role="status">
             <p id="cube-values"></p>
             <p id="cube-unit"></p>
+            <p id="water-definition" hidden><span id="water-provenance"></span> <a id="water-source">Water source</a></p>
             <p id="cube-scale-note"></p>
           </div>
         </div>
@@ -92,8 +140,61 @@
           <div class="story-step" id="apartment"></div>
           <div class="story-step" id="city"></div>
           <div class="story-step" id="comparison"></div>
+          <div class="story-step" id="explorer"></div>
         </div>
       </div>
     </main>
+    <section id="arena" class="arena" aria-labelledby="arena-title" hidden>
+      <canvas class="arena-contours" aria-hidden="true"></canvas>
+      <div class="arena-inner">
+        <nav class="arena-nav" aria-label="Story chapters">
+          <a href="#individual">Swiss glaciers &amp; urban water</a>
+          <a href="#individual">01 Individual</a>
+          <a href="#apartment">02 Building</a>
+          <a href="#city">03 City</a>
+          <a href="#comparison">04 City vs. glacier</a>
+          <a href="#explorer">05 Seasonal</a>
+          <a href="#arena" aria-current="location">06 5-glacier arena</a>
+        </nav>
+        <header class="arena-header">
+          <p class="arena-kicker" id="arena-kicker"></p>
+          <h2 id="arena-title" tabindex="-1">06 · Five iconic Swiss glaciers</h2>
+          <p>Winter accumulation and summer mass loss · <span id="arena-year-caption"></span></p>
+        </header>
+        <div class="arena-tools">
+          <div class="arena-year" role="group" aria-label="Hydrological year">
+            <button type="button" id="arena-earlier" aria-label="Previous hydrological year">‹</button>
+            <select id="arena-year" aria-label="Hydrological year"></select>
+            <button type="button" id="arena-later" aria-label="Next hydrological year">›</button>
+          </div>
+          <div class="arena-modes" role="group" aria-label="Measurement">
+            <button type="button" data-mode="volume" aria-pressed="true">Volume (M m³)</button>
+            <button type="button" data-mode="specific" aria-pressed="false">Specific Balance (mm w.e.)</button>
+          </div>
+          <button type="button" id="arena-back" hidden>← All five glaciers</button>
+        </div>
+        <p id="arena-scroll-note">Scroll sideways to view all glaciers ↔</p>
+        <div class="arena-scroll" tabindex="0" role="region" aria-label="Glacier comparison stage">
+          <div class="arena-stage">
+            <div class="arena-plot" aria-hidden="true">
+              <div class="arena-cubes"></div>
+              <div class="arena-zero"><span id="arena-zero-label"></span></div>
+            </div>
+            <div class="arena-columns"></div>
+          </div>
+        </div>
+        <footer class="arena-footer">
+          <p id="arena-unit"></p>
+          <p id="arena-coverage" role="status"></p>
+          <p id="arena-render-message" hidden>3D rendering is unavailable. Seasonal and annual values are shown above.</p>
+          <p>Signed seasonal change in water equivalent. <span id="arena-definition"></span></p>
+          <details>
+            <summary>Historical coverage and source</summary>
+            <ul id="arena-histories"></ul>
+            <p><a href="https://doi.org/10.18750/massbalance.2025.r2025">GLAMOS fixed-date glacier mass balances, release 2025</a> · Hydrological years ending through 2025.</p>
+          </details>
+        </footer>
+      </div>
+    </section>
   </body>
 </html>

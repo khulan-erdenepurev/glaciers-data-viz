@@ -1,10 +1,12 @@
+import { mountGlacierExplorer } from './glacier-explorer.js';
+import { cityConsumption } from './swiss-water.js';
 import { apartmentScale, cityCubeScale, cubeScale, individualUnit } from './scale-transition.js';
 import { quantifyVolume } from './cube-layout.js';
 import { createCubeScene } from './cube-scene.js';
 import { comparisonScale, glacierLoss, lossRatio } from './comparison.js';
 import { glaciers, litresToCubicMetres, waterUseLitres } from './data.js';
 
-const titles = ['Individual water consumption', 'Apartment water consumption', 'City water consumption', 'City versus annual glacier net loss'];
+const titles = ['Individual water consumption', 'Apartment water consumption', 'City water consumption', 'City versus annual glacier net loss', 'Seasonal glacier explorer'];
 const individualScale = cubeScale(individualUnit);
 const cityScaleNote = 'City cube units stay fixed across periods for the same city. Changing cities can change the unit.';
 const residentCounts = [40, 50, 60, 70, 80];
@@ -35,10 +37,11 @@ export function mountWaterStory(cities, observations) {
   const comparisonRecords = observations.filter(row => row.year === 2025);
   let glacier = glaciers[0];
   const stage = get('cube-stage');
-  const zurich = cities.find(city => city.name === 'Zurich');
-  const cityName = city => city === zurich ? 'Zürich' : city.name;
-  const cityOptions = ['Zurich', 'London', 'New York', 'Paris', 'Tokyo']
-    .map(name => cities.find(city => city.name === name));
+  const zurich = cities.find(city => city.municipalityId === '0261');
+  const zurichRate = zurich.observations.find(record => record.period === 'daily' && record.litresPerResidentDay !== null);
+  const cityName = city => city.name;
+  const cityOptions = ['0261', '2701', '0351', '6621', '5586']
+    .map(id => cities.find(city => city.municipalityId === id));
   const controller = new AbortController();
   const { signal } = controller;
 
@@ -51,9 +54,9 @@ export function mountWaterStory(cities, observations) {
   let scrollFrame;
   let transition;
 
-  const usage = (area, count, days) =>
-    litresToCubicMetres(waterUseLitres(count, area.litresPerResidentDay, days));
-  const sharedScale = comparisonScale(cityOptions.map(item => usage(item, item.residents, 365)), comparisonRecords);
+  const selectedConsumption = () => cityConsumption(city, sharedDays === 30 ? 'monthly' : 'annual');
+  const annualVolumes = cityOptions.map(item => cityConsumption(item, 'annual').volumeM3).filter(Number.isFinite);
+  const sharedScale = comparisonScale(annualVolumes, comparisonRecords);
 
   story.hidden = false;
   try {
@@ -63,11 +66,25 @@ export function mountWaterStory(cities, observations) {
     get('cube-render-status').textContent = 'WebGL is unavailable. The calculated volumes are still shown.';
   }
 
+  const explorer = mountGlacierExplorer({ get, observations, cities: cityOptions, scene, signal,
+    onSelection(glacierId, cityId, periodName) {
+      glacier = glaciers.find(g => g.id === glacierId);
+      glacierSelect.value = glacierId;
+      city = cityOptions.find(c => c.municipalityId === cityId);
+      sharedDays = periodName === 'annual' ? 365 : 30;
+    },
+  });
+  // Let the last, taller chapter scroll naturally to its timeline and source details.
+  const stageHeight = new ResizeObserver(([entry]) => {
+    if (chapter === 4) steps[4].style.minHeight = `max(100svh, ${Math.ceil(entry.target.offsetHeight)}px)`;
+  });
+  stageHeight.observe(story.querySelector('.story-stage'));
+
   function comparisonState() {
     const record = comparisonRecords.find(row => row.glacierId === glacier.id);
     const loss = glacierLoss(record);
-    const cityVolume = usage(city, city.residents, sharedDays);
-    return { loss, cityVolume, scale: sharedScale, volumes: [cityVolume, loss ?? 0] };
+    const cityVolume = selectedConsumption().volumeM3;
+    return { loss, cityVolume, scale: sharedScale, volumes: [cityVolume ?? 0, loss ?? 0] };
   }
 
   function comparisonLayout(progress) {
@@ -78,15 +95,14 @@ export function mountWaterStory(cities, observations) {
   function chapterVolume(index) {
     if (index === 3) {
       const state = comparisonState();
-      return { ...state.scale, volume: state.cityVolume, ...quantifyVolume(state.cityVolume, state.scale.volumePerCube, state.scale.limit) };
+      return { ...state.scale, volume: state.cityVolume, ...quantifyVolume(state.cityVolume ?? 0, state.scale.volumePerCube, state.scale.limit) };
     }
-    const area = index === 2 ? city : zurich;
-    const residentsInView = [1, residents, city.residents][index];
-    const days = index === 0 ? personDays : sharedDays;
-    const scale = index === 2 ? cityCubeScale(usage(city, city.residents, 365))
+    const scale = index === 2 ? cityCubeScale(cityConsumption(city, 'annual').volumeM3 ?? 0)
       : index === 1 ? apartmentScale : individualScale;
-    const volume = usage(area, residentsInView, days);
-    return { ...scale, volume, ...quantifyVolume(volume, scale.volumePerCube) };
+    const volume = index === 2 ? selectedConsumption().volumeM3
+      : litresToCubicMetres(waterUseLitres(index === 0 ? 1 : residents,
+        zurichRate?.litresPerResidentDay, index === 0 ? personDays : sharedDays));
+    return { ...scale, volume, ...quantifyVolume(volume ?? 0, scale.volumePerCube) };
   }
 
   function drawTransition({ fromIndex, fraction }, animateValues = false) {
@@ -99,7 +115,7 @@ export function mountWaterStory(cities, observations) {
       const sourceWidth = (composition.clientWidth - parseFloat(style.columnGap)) * share;
       const source = chapterVolume(2);
       scene?.scrubComparison(fraction, source, state.scale, state.volumes, sourceWidth / stage.clientHeight);
-      get('cube-scale-note').textContent = `The city pile regroups from ${format.format(source.volumePerCube)} to ${format.format(state.scale.volumePerCube)} m³ per cube for the comparison.`;
+      get('cube-scale-note').textContent = source.volume === null ? 'Municipality water volume unavailable.' : `The city pile regroups from ${format.format(source.volumePerCube)} to ${format.format(state.scale.volumePerCube)} m³ per cube for the comparison.`;
       return;
     }
     comparisonLayout(0);
@@ -111,13 +127,17 @@ export function mountWaterStory(cities, observations) {
     const ratio = to.volumePerCube / from.volumePerCube;
     const wholeRatio = Math.abs(ratio - Math.round(ratio)) < 1e-8;
     const equivalence = `${wholeRatio ? '' : 'about '}${format.format(ratio)} source cubes`;
-    const note = `Scale change · ${format.format(from.volumePerCube)} → ${format.format(to.volumePerCube)} m³ per cube. One larger cube represents the volume of ${equivalence}. ${destination}: ${format.format(to.volume)} m³ total.`;
+    const note = `Scale change · ${format.format(from.volumePerCube)} → ${format.format(to.volumePerCube)} m³ per cube. One larger cube represents the volume of ${equivalence}. ${destination}: ${to.volume === null ? 'municipality volume unavailable' : format.format(to.volume) + ' m³ total'}.`;
     const label = get('cube-scale-note');
     if (label.textContent !== note) label.textContent = note;
   }
 
   function update() {
     const days = chapter === 0 ? personDays : sharedDays;
+    const municipality = chapter >= 2;
+    const water = municipality ? selectedConsumption() : null;
+    period.options[1].textContent = municipality ? 'Monthly' : '30-day month';
+    period.options[2].textContent = municipality ? 'Yearly' : '365-day year';
     period.value = String(days);
     if (chapter === 1) {
       const floors = residents / 10;
@@ -127,7 +147,7 @@ export function mountWaterStory(cities, observations) {
     }
     if (chapter >= 2) {
       get('city-map').textContent = `${cityName(city)} · Map placeholder`;
-      get('city-population').textContent = `${format.format(city.residents)} residents`;
+      get('city-population').textContent = `${format.format(city.population)} municipality residents (${city.populationYear})`;
     }
 
     const state = chapter === 3 ? comparisonState() : null;
@@ -154,9 +174,24 @@ export function mountWaterStory(cities, observations) {
     const scale = chapterVolume(chapter);
     const { volume, volumePerCube, count: cubes, represented, remainder } = scale;
     const periodName = period.selectedOptions[0].textContent.toLowerCase();
-    get('cube-values').textContent = `${format.format(volume)} m³ per ${periodName}${chapter >= 2 ? ' (estimate)' : ''}`;
-    get('cube-unit').textContent =
-      `1 cube = ${format.format(volumePerCube)} m³ · ${cubes} ${cubes === 1 ? 'cube' : 'cubes'} (${format.format(represented)} m³ shown) · ${format.format(remainder)} m³ remainder`;
+    const basis = !water ? `per ${periodName}`
+      : water.period === 'annual' ? `in ${water.year} (${water.kind})`
+      : water.kind === 'reported' ? `in ${water.end ?? water.start} (observed month)`
+      : `per month (${water.year} annual total ÷ 12, estimated average)`;
+    get('cube-values').textContent = volume === null
+      ? 'Municipality water volume unavailable'
+      : `${format.format(volume)} m³ ${basis}`;
+    get('cube-unit').textContent = volume === null && !state ? ''
+      : `1 cube = ${format.format(volumePerCube)} m³` + (volume === null ? '' :
+        ` · ${cubes} ${cubes === 1 ? 'cube' : 'cubes'} (${format.format(represented)} m³ shown) · ${format.format(remainder)} m³ remainder`);
+    get('water-definition').hidden = !water;
+    if (water) {
+      const qualifier = volume === null ? 'Available source covers' : 'Water coverage';
+      get('water-provenance').textContent = `${qualifier}: ${water.scope} · ${water.year} · ${water.measurementType}. ${water.warning}`;
+      const source = get('water-source');
+      source.href = water.source.url;
+      source.textContent = `Water source · ${water.source.file}`;
+    }
     if (transition) {
       drawTransition(transition, true);
     } else {
@@ -164,7 +199,7 @@ export function mountWaterStory(cities, observations) {
       get('cube-scale-note').textContent = chapter === 3
         ? 'Both piles use this fixed cube unit for every comparison. Remainders below one cube are listed separately.'
         : chapter === 2 ? cityScaleNote : '';
-      scene?.show(state ? state.volumes : [volume], scale);
+      scene?.show(state ? state.volumes : [volume ?? 0], scale);
     }
   }
 
@@ -178,6 +213,19 @@ export function mountWaterStory(cities, observations) {
       else link.removeAttribute('aria-current');
     });
     contexts.forEach((context, i) => { context.hidden = i !== index; });
+    const exploring = index === 4;
+    get('explorer-heading').hidden = !exploring;
+    get('explorer-readings').hidden = !exploring;
+    get('season-axis').hidden = !exploring || stage.hidden;
+    get('story-controls').hidden = exploring;
+    story.querySelector('.story-values').hidden = exploring;
+    if (exploring) {
+      comparisonLayout(0);
+      get('comparison-labels').hidden = true;
+      get('comparison-values').hidden = true;
+      explorer.enter(glacier.id, city.municipalityId, sharedDays === 30 ? 'monthly' : 'annual');
+      return;
+    }
     subjectControls.hidden = index === 0;
     period.options[0].hidden = index !== 0;
     period.options[0].disabled = index !== 0;
@@ -185,10 +233,10 @@ export function mountWaterStory(cities, observations) {
       const label = index === 1 ? 'Residents' : 'City';
       const options = index === 1
         ? residentCounts.map(count => new Option(count, count))
-        : cityOptions.map(item => new Option(cityName(item), item.name));
+        : cityOptions.map(item => new Option(cityName(item), item.municipalityId));
       get('subject-label').textContent = label;
       subject.replaceChildren(...options);
-      subject.value = index === 1 ? String(residents) : city.name;
+      subject.value = index === 1 ? String(residents) : city.municipalityId;
       subjectControls.querySelector('[data-step="-1"]').setAttribute('aria-label', `Previous ${label.toLowerCase()} option`);
       subjectControls.querySelector('[data-step="1"]').setAttribute('aria-label', `Next ${label.toLowerCase()} option`);
     }
@@ -203,11 +251,11 @@ export function mountWaterStory(cities, observations) {
     const nextTop = steps[index + 1]?.getBoundingClientRect().top ?? Infinity;
     const fraction = 1 - (nextTop - threshold) / travel;
     const previous = transition;
-    transition = fraction > 0 && fraction < 1 ? { fromIndex: index, fraction } : undefined;
+    transition = index < 3 && fraction > 0 && fraction < 1 ? { fromIndex: index, fraction } : undefined;
 
     if (previous && previous.fromIndex !== transition?.fromIndex) {
       drawTransition({ ...previous, fraction: index > previous.fromIndex ? 1 : 0 });
-    } else if (!previous && !transition && chapter >= 0 && chapter !== index) {
+    } else if (!previous && !transition && chapter >= 0 && chapter !== index && Math.max(chapter, index) < 4) {
       drawTransition(index > chapter ? { fromIndex: index - 1, fraction: 1 } : { fromIndex: index, fraction: 0 });
     }
 
@@ -224,7 +272,7 @@ export function mountWaterStory(cities, observations) {
 
   subject.addEventListener('change', () => {
     if (chapter === 1) residents = Number(subject.value);
-    if (chapter >= 2) city = cityOptions.find(item => item.name === subject.value);
+    if (chapter >= 2) city = cityOptions.find(item => item.municipalityId === subject.value);
     update();
   }, { signal });
   glacierSelect.addEventListener('change', () => {
@@ -268,13 +316,14 @@ export function mountWaterStory(cities, observations) {
   let wheelSelection;
   const wheelZones = [
     ...headings,
+    [get('explorer-glacier'), get('explorer-glacier')], [get('explorer-year'), get('explorer-year')],
     [glacierControls, glacierSelect], [subjectControls, subject], [get('city-map'), subject],
     [apartmentPanel, subject], [periodControls, period], [stage, period],
     [get('cube-values'), period], [get('city-population'), period],
   ];
   for (const [target, select] of wheelZones) {
     target.addEventListener('wheel', event => {
-      if ((target === apartmentPanel && chapter !== 1) || event.ctrlKey || !event.cancelable ||
+      if ((chapter === 4 && target === stage) || (target === apartmentPanel && chapter !== 1) || event.ctrlKey || !event.cancelable ||
           Math.abs(event.deltaX) <= 1.5 * Math.abs(event.deltaY) || !event.deltaX) return;
       event.preventDefault();
       const selection = chapter === 3 && target === stage
@@ -301,9 +350,10 @@ export function mountWaterStory(cities, observations) {
     import.meta.hot.dispose(() => {
       controller.abort();
       cancelAnimationFrame(scrollFrame);
+      stageHeight.disconnect();
       scene?.dispose();
     });
   }
-  if (location.hash === '#comparison') steps[3].scrollIntoView();
+  steps.find(step => '#' + step.id === location.hash)?.scrollIntoView();
   syncScroll();
 }

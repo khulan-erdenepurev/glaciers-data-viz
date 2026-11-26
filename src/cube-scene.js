@@ -1,8 +1,11 @@
 import {
   BoxGeometry, Color, EdgesGeometry, InstancedMesh, LineBasicMaterial, LineSegments,
+  Plane,
   MeshBasicMaterial, Object3D, OrthographicCamera, Scene, Vector3, WebGLRenderer,
 } from 'three';
-import { createPileSlots, maxCubesPerPile, quantifyVolume, retargetPile, pileIsSettled } from './cube-layout.js';
+import { createPileSlots, maxCubesPerPile, quantifyVolume, advancePiles, pileIsSettled } from './cube-layout.js';
+import { createSeasonMaterials, addSeasonLights } from './season-materials.js';
+import { seasonalFrame, seasonalDirection } from './seasonal-frame.js';
 import { advanceTransitionCounts, scaleTransition } from './scale-transition.js';
 import { cityFrame, pileFrame, mixFrame, revealProgress, viewDirection, viewRight, comparisonFrame } from './camera-framing.js';
 
@@ -22,6 +25,19 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
   mesh.frustumCulled = false;
   scene.add(mesh);
 
+  const seasonMeshes = createSeasonMaterials().map(material => {
+    material.clippingPlanes = [new Plane(new Vector3(0, 1, 0), 0)];
+    const pile = new InstancedMesh(geometry, material, comparisonLimit);
+    pile.frustumCulled = false;
+    pile.visible = false;
+    scene.add(pile);
+    return pile;
+  });
+  addSeasonLights(scene);
+  const storyBackground = scene.background;
+  const seasonalBackground = new Color('#e5eef1');
+  let seasonSigns = [1, -1];
+  let seasonalFit;
   const outline = new LineSegments(new EdgesGeometry(geometry), new LineBasicMaterial({ color: '#006b76', transparent: true }));
   outline.visible = false;
   scene.add(outline);
@@ -44,7 +60,7 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
   let scrubTarget;
   let animateScrubCamera = false;
   let comparisonPose;
-  let animatingComparison = false;
+  let animatingPair = false;
   const separation = scale => edge * scale.edgeRatio * 17;
   function countsFor(volumes, scale) {
     return volumes.map(volume => quantifyVolume(volume, scale.volumePerCube, scale.limit).count);
@@ -66,6 +82,12 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
   }
 
   function desiredFrame(aspect) {
+    if (activeScale?.seasonal && !scrollPose && !comparisonPose) {
+      if (!seasonalFit || seasonalFit.aspect !== aspect) {
+        seasonalFit = { aspect, ...seasonalFrame(slots, targets, seasonSigns, edge * edgeRatio, aspect) };
+      }
+      return seasonalFit;
+    }
     if (comparisonPose) {
       const { t, from, scale, counts, sourceAspect } = comparisonPose;
       return mixFrame(settledFrame(from, from.count, sourceAspect),
@@ -87,6 +109,8 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
     const desired = desiredFrame(aspect);
     cameraFrame = !cameraFrame || immediate || ((scrollPose || comparisonPose) && !animateScrubCamera) || reducedMotion.matches
       ? desired : mixFrame(cameraFrame, desired, 1 - Math.exp(-elapsed / 180));
+    const seasonal = activeScale?.seasonal && !scrollPose && !comparisonPose;
+    if (seasonal) cameraFrame.center.copy(desired.center);
     const { halfHeight, center } = cameraFrame;
     camera.left = -halfHeight * aspect;
     camera.right = halfHeight * aspect;
@@ -96,10 +120,14 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
     const largestEdge = edge * Math.max(edgeRatio, scrollPose?.from.edgeRatio ?? 0, scrollPose?.to.edgeRatio ?? 0);
     const distance = Math.max(20, halfHeight * 4, largestEdge * 40);
     camera.far = distance * 4;
-    camera.position.copy(center).addScaledVector(viewDirection, distance);
+    camera.position.copy(center).addScaledVector(seasonal ? seasonalDirection : viewDirection, distance);
     camera.lookAt(center);
     camera.updateProjectionMatrix();
 
+    renderer.localClippingEnabled = Boolean(seasonal);
+    mesh.visible = !seasonal;
+    scene.background = seasonal ? seasonalBackground : storyBackground;
+    for (const pile of seasonMeshes) pile.visible = Boolean(seasonal);
     let instance = 0;
     function place(index, amount, scale, offset = 0) {
       if (amount <= 0) return;
@@ -132,7 +160,29 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
     }
 
     outline.visible = false;
-    if (comparisonPose) {
+    if (seasonal) {
+      seasonMeshes.forEach((pile, group) => {
+        const size = edge * edgeRatio;
+        const sign = seasonSigns[group];
+        pile.material.clippingPlanes[0].normal.y = sign;
+        let count = 0;
+        progress[group].forEach((amount, index) => {
+          if (amount <= 0) return;
+          const { x, y, z } = slots[index];
+          // Push each new cube outward from the dividing plane. A cube emerges
+          // through the zero plane without changing its physical dimensions.
+          const height = ((y * 1.045 + 1) * amount - 0.5) * size;
+          transform.position.set(x * size * 1.045, sign * height, z * size * 1.045)
+            .addScaledVector(viewRight, seasonalFit.offsets[group]);
+          transform.scale.setScalar(size);
+          transform.updateMatrix();
+          pile.setMatrixAt(count++, transform.matrix);
+        });
+        pile.count = count;
+        pile.instanceMatrix.needsUpdate = true;
+        instance += count;
+      });
+    } else if (comparisonPose) {
       const { t, from, scale, counts, regroup, glacierGrowth } = comparisonPose;
       const offset = separation(scale);
       placeRegrouped(regroup, from.count, from, scale, -offset * t);
@@ -149,7 +199,7 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
       });
     }
 
-    mesh.count = instance;
+    mesh.count = seasonal ? 0 : instance;
     mesh.instanceMatrix.needsUpdate = true;
     renderer.domElement.dataset.activeCubes = String(instance);
     renderer.domElement.dataset.cameraHalfHeight = String(halfHeight);
@@ -181,11 +231,18 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
   }
 
   function show(volumes, scale) {
-    const nextTargets = countsFor(volumes, scale);
-    const keepLoop = scale.comparison && animatingComparison && !reducedMotion.matches;
+    const nextTargets = countsFor(scale.seasonal ? volumes.map(v => Math.abs(v ?? 0)) : volumes, scale);
+    const nextSigns = scale.seasonal ? volumes.map((v, i) => Math.sign(v) || (i === 0 ? 1 : -1)) : [];
+    seasonalFit = undefined;
+    const paired = Boolean(scale.comparison || scale.seasonal);
+    const keepLoop = paired && animatingPair && !reducedMotion.matches;
     if (!keepLoop) cancelAnimationFrame(frame);
-    if (scrubState || unit !== scale.volumePerCube || targets.length !== nextTargets.length) {
+    if (Boolean(scale.seasonal) !== Boolean(activeScale?.seasonal) || scrubState || unit !== scale.volumePerCube || targets.length !== nextTargets.length) {
       progress = nextTargets.map(() => []);
+    }
+    if (scale.seasonal) {
+      nextSigns.forEach((sign, i) => { if (seasonSigns[i] !== sign) progress[i] = []; });
+      seasonSigns = nextSigns;
     }
     scrubState = undefined;
     comparisonPose = undefined;
@@ -198,29 +255,25 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
     targets = nextTargets;
     if (reducedMotion.matches) {
       progress = targets.map(count => Array(count).fill(1));
-      animatingComparison = false;
+      animatingPair = false;
       draw();
       return;
     }
 
     if (keepLoop) return;
-    animatingComparison = Boolean(scale.comparison);
+    animatingPair = paired;
     animate(elapsed => {
-      // A settled comparison pile keeps its slot progress, even when its neighbour changes.
-      progress = targets.map((count, index) => {
-        const pile = progress[index];
-        return scale.comparison && pileIsSettled(pile, count) ? pile : retargetPile(pile, count, elapsed);
-      });
+      progress = advancePiles(progress, targets, elapsed);
       const movingCamera = draw(elapsed);
       const movingPiles = progress.some((pile, index) => !pileIsSettled(pile, targets[index]));
-      if (!movingCamera && !movingPiles) animatingComparison = false;
+      if (!movingCamera && !movingPiles) animatingPair = false;
       return movingCamera || movingPiles;
     });
   }
 
   function scrubScale(fraction, from, to, { animateValues = false } = {}) {
     comparisonPose = undefined;
-    animatingComparison = false;
+    animatingPair = false;
     cancelAnimationFrame(frame);
     const t = reducedMotion.matches ? Number(fraction >= 1) : fraction;
     const layout = scaleTransition(t, to.count, from.zoom, to.zoom);
@@ -270,7 +323,7 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
     if (t === 0) { scrubScale(0, from, from); return; }
     const counts = countsFor(volumes, scale);
     cancelAnimationFrame(frame);
-    animatingComparison = false;
+    animatingPair = false;
     scrubState = undefined;
     scrubTarget = undefined;
     scrollPose = undefined;
@@ -294,6 +347,11 @@ export function createCubeScene(container, { frameHalfWidth = 5.3, comparisonLim
     observer.disconnect();
     cancelAnimationFrame(frame);
     mesh.dispose();
+    seasonMeshes.forEach(pile => {
+      pile.dispose();
+      pile.material.map.dispose();
+      pile.material.dispose();
+    });
     geometry.dispose();
     outline.geometry.dispose();
     outline.material.dispose();

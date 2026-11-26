@@ -19,5 +19,5 @@ export function comparisonScale(annualCityVolumes, records) {
 }
 
 export function lossRatio(loss, cityVolume) {
-  return loss === null || loss <= 0 || cityVolume <= 0 ? null : loss / cityVolume;
+  return !Number.isFinite(loss) || loss <= 0 || !Number.isFinite(cityVolume) || cityVolume <= 0 ? null : loss / cityVolume;
 }

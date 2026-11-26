@@ -28,3 +28,11 @@ Screen 04 uses one cube for every 500,000 m³ across all comparisons. The city p
 Run `npm test` for checks against the supplied CSVs and `npm run build` to build both pages. See [PLAN.md](PLAN.md) for the approved roadmap. The screen descriptions below the project root are provisional references for future milestones.
 
 The overview uses GLAMOS's fixed-date [Swiss Glacier Mass Balance, release 2025](https://doi.org/10.18750/massbalance.2025.r2025). Years are labelled by the end of the hydrological year. Balances are shown in millimetres of water equivalent. City estimates use the supplied population and daily use figures, with the Zürich rate from municipality 261 in the 2023 cantonal CSV.
+
+### Swiss municipality water comparisons
+
+Screens 03–04 use the cleaned observations, comparison candidates and municipality population CSVs in `data/processed/swiss_water_cleaned/`. The source registry is supplied as a Numbers workbook. Runtime attribution comes from the CSVs. Screen 01 and Screen 02 use the cleaned Zürich 2023 per-resident indicator for their illustrative daily, 30-day and 365-day calculations.
+
+Bern's 2025 figure is a reported municipal total. Zürich's 2025 estimate applies the 2023 rate to the 2025 population. Lausanne's 2025 figure estimates local retail deliveries using a rounded 55% allocation. These estimates are contextual volume comparisons with glacier loss. Basel and Genève remain selectable with municipality water volumes unavailable because their sources cover wider supply areas.
+
+Where a complete municipality month is available in the reference year, its dated reading takes priority. For the current eligible cities, Monthly means a derived average of the annual figure divided by 12. Basel's actual months and its incomplete 2025 sum remain in the normalized history with their original scope and completeness flags. They do not enter municipality comparisons.

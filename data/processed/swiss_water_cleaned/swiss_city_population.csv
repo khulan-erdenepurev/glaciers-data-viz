@@ -1,0 +1,6 @@
+city,bfs_code,year,population,population_type,source_file,source_sheet,source_scope,source_url
+Zürich,0261,2025,440935,permanent resident population,populationcount.xlsx,px-x-0102010000_100,municipality,https://www.pxweb.bfs.admin.ch/
+Basel,2701,2025,180097,permanent resident population,populationcount.xlsx,px-x-0102010000_100,municipality,https://www.pxweb.bfs.admin.ch/
+Bern,0351,2025,138562,permanent resident population,populationcount.xlsx,px-x-0102010000_100,municipality,https://www.pxweb.bfs.admin.ch/
+Genève,6621,2025,211152,permanent resident population,populationcount.xlsx,px-x-0102010000_100,municipality,https://www.pxweb.bfs.admin.ch/
+Lausanne,5586,2025,145596,permanent resident population,populationcount.xlsx,px-x-0102010000_100,municipality,https://www.pxweb.bfs.admin.ch/

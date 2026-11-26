@@ -1,7 +1,9 @@
 import glacierUrl from '../data/massbalance_2025_r2025/massbalance_fixdate_2025_r2025.csv?url';
-import cityUrl from '../data/residents_cities_water_usage.csv?url';
-import municipalityUrl from '../data/KANTON_ZUERICH_469.csv?url';
-import { parseCities, parseGlacierBalances } from './data.js';
+import waterUrl from '../data/processed/swiss_water_cleaned/swiss_water_observations.csv?url';
+import candidatesUrl from '../data/processed/swiss_water_cleaned/swiss_city_comparison_candidates.csv?url';
+import populationUrl from '../data/processed/swiss_water_cleaned/swiss_city_population.csv?url';
+import { parseGlacierBalances } from './data.js';
+import { parseSwissWater } from './swiss-water.js';
 
 async function read(url) {
   const response = await fetch(url);
@@ -9,11 +11,13 @@ async function read(url) {
   return response.text();
 }
 
-export async function loadGlaciers() {
-  return parseGlacierBalances(await read(glacierUrl));
+let glacierSource;
+export async function loadGlaciers(selection) {
+  glacierSource ??= read(glacierUrl);
+  return parseGlacierBalances(await glacierSource, selection);
 }
 
 export async function loadCities() {
-  const [cities, municipalities] = await Promise.all([read(cityUrl), read(municipalityUrl)]);
-  return parseCities(cities, municipalities);
+  const tables = await Promise.all([read(waterUrl), read(candidatesUrl), read(populationUrl)]);
+  return parseSwissWater(...tables);
 }

@@ -32,7 +32,7 @@ caption { text-align: left; padding: 0.35rem; }
 th, td { text-align: right; padding: 0.4rem 0.55rem; border-bottom: 1px solid #ddd; }
 th { position: sticky; top: 0; background: #eee; }
 
-.story { display: grid; }
+.story { display: grid; grid-template-columns: minmax(0, 1fr); }
 .story[hidden], .story [hidden] { display: none; }
 .story-stage, .story-track { grid-area: 1 / 1; }
 .story-stage {
@@ -71,13 +71,14 @@ th { position: sticky; top: 0; background: #eee; }
 }
 .chapter-context p { margin: 0.45rem 0 0; }
 #cube-stage { height: clamp(11rem, 45svh, 25rem); }
-#cube-stage canvas { display: block; }
+#cube-stage canvas { display: block; max-width: 100%; }
 #story-controls { margin-top: 0.6rem; }
+#story-controls[hidden] { display: none; }
 .story-control button { font: inherit; min-width: 1.9rem; cursor: pointer; }
 .story-control select { margin-inline-start: 0; }
 .story-values p { margin: 0.25rem 0; font-variant-numeric: tabular-nums; }
 #cube-values { font-weight: 650; }
-#cube-unit { font-size: 0.85rem; }
+#cube-unit, #water-definition { font-size: 0.85rem; }
 #cube-render-status:empty { display: none; }
 .person-glyph {
   display: inline-grid;
@@ -130,3 +131,46 @@ th { position: sticky; top: 0; background: #eee; }
 #comparison-labels [aria-hidden] { color: var(--accent); }
 #comparison-values { font-size: .9rem; }
 #comparison-values p { margin: .2rem 0; }
+
+.explorer-heading, .season-readings, .history figcaption {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: .4rem 1.2rem;
+}
+.explorer-heading { margin-bottom: .7rem; align-items: end; }
+.explorer-heading label, .net-result span, .season-readings small {
+  display: block; font-size: .82rem; color: #465659;
+}
+.explorer-heading select, .explorer-year-controls button { margin: 0; font: inherit; font-weight: 650; }
+.explorer-year-controls { display: flex; gap: .2rem; }
+.net-result { margin-left: auto; }
+.net-result strong { color: var(--accent); font-size: clamp(1rem, 2.3vw, 1.55rem); }
+.story[data-chapter="explorer"] .story-composition { display: block; position: relative; }
+.story[data-chapter="explorer"] #chapter-context { display: none; }
+.story[data-chapter="explorer"] #cube-stage { height: clamp(16rem, 47svh, 33rem); }
+#season-axis {
+  pointer-events: none; position: absolute; inset: 50% 0 auto; border-top: 1.5px solid #476369;
+}
+#season-axis span { position: absolute; left: .6rem; bottom: 0; color: #344c52; font-size: .8rem; }
+#explorer-readings { font-variant-numeric: tabular-nums; }
+.season-readings { justify-content: space-between; padding: .55rem 0; }
+.season-readings h3 { margin: 0; display: flex; align-items: center; gap: .36rem; font-size: .9rem; }
+.season-readings i { width: .7rem; height: .7rem; border: 1px solid #748d93; }
+.ice-sample { background: #cce5ef; }
+.water-sample { background: #2984a0; }
+.season-readings strong { font-size: clamp(.95rem, 2.5vw, 1.3rem); }
+#explorer-scale, #year-coverage { margin: 0; color: #415053; font-size: .82rem; }
+.history { margin: .7rem 0; border-block: 1px solid #cad3d5; padding: .5rem 0; }
+.history figcaption { justify-content: space-between; }
+.history figcaption span { font-size: .82rem; }
+.history svg { width: 100%; display: block; max-height: 7rem; cursor: pointer; }
+.history svg text { font: 12px system-ui, sans-serif; fill: #485558; }
+.history rect { fill: #7a898c; }
+.history rect.is-selected, .history rect:hover { fill: var(--accent); }
+.history .selected-year { stroke: var(--accent); stroke-width: 1.5; pointer-events: none; }
+#explorer-readings details { font-size: .9rem; margin: .4rem 0; }
+#explorer-readings summary { cursor: pointer; font-weight: 600; }
+#explorer-readings details p { margin: .35rem 0; }
+@media (max-width: 44rem) {
+  .net-result { margin-left: 0; }
+  .explorer-heading { gap: .25rem .65rem; }
+  .season-readings { gap: .2rem .5rem; }
+}

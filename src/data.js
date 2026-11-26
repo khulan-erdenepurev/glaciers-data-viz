@@ -30,7 +30,7 @@ function readTable(source, anchor, fields, metadataRows = 0) {
     .map(row => Object.fromEntries(columns.map(([key, index]) => [key, row[index]])));
 }
 
-export function parseGlacierBalances(source) {
+export function parseGlacierBalances(source, selection = glaciers) {
   // The observer attribution at the end can contain unquoted commas.
   const rows = readTable(source, 'glacier name', {
     glacierId: 'glacier id',
@@ -40,7 +40,7 @@ export function parseGlacierBalances(source) {
     annual: 'annual mass balance',
     area: 'glacier area',
   }, 2);
-  const selected = new Set(glaciers.map(glacier => glacier.id));
+  const selected = new Set(selection.map(glacier => glacier.id));
   const seen = new Set();
   return rows.filter(row => selected.has(row.glacierId)).map(row => {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(row.endDate ?? '')) {
